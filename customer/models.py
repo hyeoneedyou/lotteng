@@ -8,7 +8,7 @@ class Customer(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
     phoneNumber = models.CharField(max_length=45)
     email = models.CharField(max_length=45)
-    permission = models.IntegerField()
+    permission = models.IntegerField(null = True, blank=True)
 
 @receiver(post_save, sender = User)
 def create_user_customer(sender, instance, created, **kwargs):
@@ -16,6 +16,6 @@ def create_user_customer(sender, instance, created, **kwargs):
         Customer.objects.create(user = instance)
     
 @receiver(post_save, sender = User)
-def save_user_customer_post_save(sender, instance, **kwargs):
+def save_user_customer(sender, instance, **kwargs):
     instance.customer.save()
 

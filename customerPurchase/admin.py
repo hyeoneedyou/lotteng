@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import CustomerPurchase
 
-# Register your models here.
+admin.register(CustomerPurchase)
+
