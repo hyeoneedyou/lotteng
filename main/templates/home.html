@@ -4,4 +4,13 @@
 Lotteng
 {% endblock %}
 {% block content %}
-{% endblock %}
+    {% include "nav.html" %}
+    <a>my page</a>
+    {% if user.is_authenticated %} {# 유저가 로그인 중이면 #}
+        <a href="{% url 'account_logout' %}" >Logout</a>
+        <a href="{% url 'account_change_password' %}">Change PW</a>
+    {% else %}
+        <a href="{% url 'account_login' %}" >Login</a>
+        <a href="{% url 'account_signup' %}" >Sign Up</a>
+    {% endif %}
+{% endblock%}
