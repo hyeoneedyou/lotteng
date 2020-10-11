@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.http import response
+from django.shortcuts import get_object_or_404, render
 from .models import OnSaleProduct
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import datetime, timedelta
@@ -22,7 +23,7 @@ def requestStrToInt(str, defalut = 1):
 '''
 시장 철수, 할인 마감등이 되지 않은 할인 중인 상품 목록을 return하는 뷰
 '''
-def show_on_sale_product_list_view(request):
+def show_on_sale_product_list(request):
     # request content
     page = requestStrToInt(request.GET.get('page')) # page 넘버
     page_cnt = requestStrToInt(request.GET.get('page_cnt', DEFAULT_PAGE_CNT)) # 한 페이지에 있는 상품의 수, defalt = 10
@@ -31,7 +32,7 @@ def show_on_sale_product_list_view(request):
     time_threshold = datetime.now()
 
     on_sale_products = OnSaleProduct.objects.all()
-    on_sale_products = on_sale_products.filter(endDate__gt=time_threshold) # 상품이 시장 철수를 하였거나, 할인이 마감된 할인 상품은 배제한다.
+    on_sale_products = on_sale_products.filter(endDate__gt=time_threshold, stock__gt = 0) # 상품이 시장 철수를 하였거나, 할인이 마감된 할인 상품은 배제한다.
     on_sale_products = on_sale_products[::-1] # 최근에 등록된 상품이 앞으로 오게 한다.
 
     # pagination
@@ -59,7 +60,7 @@ def get_on_sale_product_list(page, page_cnt):
     time_threshold = datetime.now()
 
     on_sale_products = OnSaleProduct.objects.all()
-    on_sale_products = on_sale_products.filter(endDate__gt=time_threshold) # 상품이 시장 철수를 하였거나, 할인이 마감된 할인 상품은 배제한다.
+    on_sale_products = on_sale_products.filter(endDate__gt=time_threshold, stock__gt = 0) # 상품이 시장 철수를 하였거나, 할인이 마감된 할인 상품은 배제한다.
     on_sale_products = on_sale_products[::-1] # 최근에 등록된 상품이 앞으로 오게 한다.
 
     # pagination
@@ -75,4 +76,30 @@ def get_on_sale_product_list(page, page_cnt):
         'page': page, 
         'page_cnt': page_cnt, 
         'range' : [i for i in range(start, end+1)]
+    }
+
+def show_on_sale_product_detail(request, id):
+    product = get_object_or_404(OnSaleProduct, pk = id)
+
+    # 할인 시간이 지난 경우의 상품의 detail 페이지를 요구하는 경우
+    if product.endDate < datetime.now() or product.stock <= 0:
+        response = render(request, "is_not_on_sale_product.html")
+        response.status_code = 404
+        return response
+
+    return render(request, 'show_on_sale_product_detail.html',\
+        {
+            'product': product,
+        }
+    )
+
+def get_on_sale_product_detail():
+    product = get_object_or_404(OnSaleProduct, pk = id)
+
+    # 할인 시간이 지난 경우의 상품의 detail 페이지를 요구하는 경우
+    if product.endDate < datetime.now():
+        return None
+
+    return {
+        'product': product,
     }
