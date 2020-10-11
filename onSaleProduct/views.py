@@ -78,6 +78,10 @@ def get_on_sale_product_list(page, page_cnt):
         'range' : [i for i in range(start, end+1)]
     }
 
+'''
+시장 철수, 할인 마감등이 되지 않은 할인 중인 상품인 경우에만 상품 정보 뷰를 return
+아닌 경우, is_not_on_sale_product.html을 404 status로 return
+'''
 def show_on_sale_product_detail(request, id):
     product = get_object_or_404(OnSaleProduct, pk = id)
 
@@ -93,6 +97,10 @@ def show_on_sale_product_detail(request, id):
         }
     )
 
+'''
+시장 철수, 할인 마감등이 되지 않은 할인 중인 상품을 
+다른 페이지에서 사용하기 위한 함수
+'''
 def get_on_sale_product_detail():
     product = get_object_or_404(OnSaleProduct, pk = id)
 
