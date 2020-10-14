@@ -5,20 +5,23 @@ Lotteng
 {% endblock %}
 
 {% block stylesheet %}
-    <link rel="stylesheet" href="{% static 'assets/css/productCardList.css'%}">
-    <link rel="stylesheet" href="{% static 'assets/css/productCard.css'%}">
+<link rel="stylesheet" href="{% static 'assets/css/productCardList.css'%}">
+<link rel="stylesheet" href="{% static 'assets/css/productCard.css'%}">
 {% endblock%}
 
 {% block content %}
-    {% include "nav.html" %}
-    <a>my page</a>
-    {% if user.is_authenticated %} {# 유저가 로그인 중이면 #}
-        <a href="{% url 'account_logout' %}" >Logout</a>
-        <a href="{% url 'account_change_password' %}">Change PW</a>
-    {% else %}
-        <a href="{% url 'account_login' %}" >Login</a>
-        <a href="{% url 'account_signup' %}" >Sign Up</a>
-    {% endif %}
+{% include "nav.html" %}
+<section>
+  <a>my page</a>
+  {% if user.is_authenticated %} {# 유저가 로그인 중이면 #}
+  <a href="{% url 'account_logout' %}">Logout</a>
+  <a href="{% url 'account_change_password' %}">Change PW</a>
+  {% else %}
+  <a href="{% url 'account_login' %}">Login</a>
+  <a href="{% url 'account_signup' %}">Sign Up</a>
+  {% endif %}
 
-    {% include 'productList.html' %}
+  {% include 'productList.html' %}
+</section>
+{% include "footer.html" %}
 {% endblock%}

@@ -1,0 +1,24 @@
+footer {
+    background-color: #DCDCDC;
+    padding: 2vh 1vw 2vh 1vw;
+    margin-top: 30px;
+}
+
+footer a,span,p {
+    color: #636363;
+}
+
+footer span {
+    margin-right: 3vw;
+}
+
+footer img {
+    width: 30%;
+    height: auto;
+    margin-bottom: 3vh;
+}
+
+
+footer a:hover {
+    text-decoration: none;
+}
