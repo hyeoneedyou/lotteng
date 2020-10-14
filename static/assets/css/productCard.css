@@ -1,0 +1,31 @@
+.badge {
+    font-size: 1rem;
+    margin: 1vh 0 2vh 0;
+}
+.badge-primary {
+    background-color: #DA291C;
+}
+
+.badge-secondary {
+    background-color: #FF9900;
+}
+
+.cart-circle-button {
+    position: absolute;
+    right: 2vw;
+    margin-top: -6vh;
+    background-color: #DA291C;
+    border-radius:50%; 
+    width: 40px;
+    height: 40px;
+}
+
+.cart-circle-button svg{
+    color: white;
+    position: absolute;
+    left:20%;
+    top:20%;
+    width: 60%;
+    height:auto;
+    display:block;
+}

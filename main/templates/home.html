@@ -3,6 +3,12 @@
 {% block title %}
 Lotteng
 {% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'assets/css/productCardList.css'%}">
+    <link rel="stylesheet" href="{% static 'assets/css/productCard.css'%}">
+{% endblock%}
+
 {% block content %}
     {% include "nav.html" %}
     <a>my page</a>
@@ -13,4 +19,6 @@ Lotteng
         <a href="{% url 'account_login' %}" >Login</a>
         <a href="{% url 'account_signup' %}" >Sign Up</a>
     {% endif %}
+
+    {% include 'productList.html' %}
 {% endblock%}
