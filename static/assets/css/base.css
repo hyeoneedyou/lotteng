@@ -1,0 +1,22 @@
+body {
+  margin: 0 5% 0 5%;
+  background-color: #F4F4F4;
+}
+
+#search-bar-box {
+  border: 1px solid #707070;
+  border-radius: 4px;
+}
+#search-bar {
+  text-align: center;
+  border: none;
+}
+
+.login-box {
+  background-color: #DA291C;
+  color: white;
+}
+
+.shopping-cart {
+  height: 2rem;
+}
