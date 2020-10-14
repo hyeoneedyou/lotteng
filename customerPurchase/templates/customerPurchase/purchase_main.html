@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated %}
+<h1>결제 수단</h1>
+<button onclick="window.open('{% url 'customerPurchase:Lpay' %}', 'window_name','width=430,height=500,location=no,status=no,scrollbars=yes');">L.pay 간편결제</button>
+<button onclick="window.open('{% url 'customerPurchase:card' %}', 'window_name','width=430,height=500,location=no,status=no,scrollbars=yes');">신용카드</button>
+<button onclick="window.open('{% url 'customerPurchase:phone' %}', 'window_name','width=430,height=500,location=no,status=no,scrollbars=yes');">휴대폰 결제</button>
+<div class="purchase_information">
+    <table >
+        <tr>픽업 장소<br></br>
+        {{ Shop.name }}
+        </tr>
+        <tr>상품 정보<br></br>
+        {{ Product.name }}
+        </tr>
+        <tr>결제 금액<br></br>
+        {{ OnSaleProduct.price }}
+        </tr>
+    </table>
+</div>
+       
+{% else %}
+    <a href="{% url 'account_login' %}" >Login</a>
+    <a href="{% url 'account_signup' %}" >Sign Up</a>
+{% endif %}    
+{% endblock %}
