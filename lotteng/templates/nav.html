@@ -1,41 +1,50 @@
 {% load static %}
 
 <header>
-    <div class="header-area">
-        <div class="main-header">
-            <div class="header-top">
-                
+  <div class="header-area">
+    <div class="main-header">
+      <div class="header-bottom">
+        <div class="container-fluid">
+          <div class="navbar navbar-expand-lg-form row align-items-center">
+            <div class="logo-small col-xl-2 col-lg-2 d-none d-md-none d-lg-block">
+              <img src="{% static 'assets/img/lotteng-small-logo.png' %}" alt="" style="width: 100%;">
             </div>
-            
-            <div class="header-bottom">
-                <div class="container-fluid">
-                    <div class="row align-items-center">
-                        <div class="col-xl-1 col-lg-1 col-md-1 col-sm-3">
-                            <div class="logo">
-                                <a href="#">
-                                    <!-- <img src="{% static 'img/logo.png' %}" alt=""> -->
-                                </a>
-                            </div>
-                        </div>
-                        <div class = "col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                            <div class="search-bar">
-                                
-                            </div>
-                        </div>
-
-                            <div class="shoping-cart">
-
-                            </div>
-
-                            <div class="login-box">
-
-                            </div>
-                        </div>
-                    </div>
+            <div class="col-xl-10 col-lg-10 col-12">
+              <div class = "row">
+                <div class="logo col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9 col-9">
+                  <a href="/">
+                    <img src="{% static 'assets/img/lotteng-main-logo.png' %}" alt="" style="width: 100%;">
+                  </a>
                 </div>
+                <div class="col-xl-2 col-lg-2 d-none d-md-none d-lg-block">
+                </div>
+
+                <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9 col-9">
+                  <div class="input-group" id = "search-bar-box">
+                    <input type="text" class="form-control" name="search-bar" id="search-bar" placeholder="검색어를 입력해주세요..">
+                    <span class="input-group-btn">
+                      <button class="btn" type="button">
+                        <img src="{% static 'assets/svg/search.svg' %}" alt="" style="width: 100%;">
+                      </button>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-xl-1 col-lg-1 col-md-1 d-none d-sm-none d-md-block">
+                  <button type = "button" class = "btn">
+                    <img class = "shopping-cart " src="{% static 'assets/svg/cart.svg' %}" alt="" srcset="">
+                  </button>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2 d-none d-sm-none d-md-block">
+                  <button type = "button" class = "btn login-box">
+                    로그인
+                  </button>
+                </div>
+              </div>
             </div>
-
-
+          </div>
         </div>
+      </div>
+
     </div>
+  </div>
 </header>
