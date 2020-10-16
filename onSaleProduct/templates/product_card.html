@@ -13,10 +13,10 @@
   </div>
   <div class="card-body">
     <span class="badge badge-primary">{{product.kinds}}</span>
-    <span class="badge badge-secondary">롯데 마트</span>
+    <span class="badge badge-secondary">{{product.shop.company.name}}</span>
     <h5 class="card-title">
       <a href="{% url 'show_on_sale_product_detail' product.id %}" style="color: #636363;">
-        [잠실점] {{product.product.name}}
+        [{{product.shop.name}}] {{product.product.name}}
       </a>
     </h5>
     <p class="card-text">
