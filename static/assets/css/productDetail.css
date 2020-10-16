@@ -14,6 +14,12 @@
     padding-right: 5%;
 }
 
+.product-inner-container {
+    padding-top: 2%;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
 .product-name {
     padding-top: 10px;
 }
@@ -36,8 +42,60 @@
     color: black;
 }
 
-.product-discount-price {
+.product-discount-price { 
     font-size: 1.5rem;
     font-weight: bold;
     color: #DA291C;
+}
+
+#purchase-price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: black;
+}
+
+
+.input-group-prepend, .input-group-append  {
+    background-color: #DA291C;
+}
+
+.input-group-prepend button, .input-group-append button {
+    color: white;
+}
+
+.purchace-cnt-input {
+    padding: 0.5rem;
+    margin-left: 5%;
+    margin-right: 5%;
+    background-color: #e0e0e0;
+}
+
+.purchase-button-container {
+    margin: 5% auto 0 auto;
+}
+
+#shopping-cart-button {
+    position: absolute;
+    left: 50%;    
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    text-align: center;
+    width: 90%;
+    border: 2px solid #DA291C;
+
+}
+
+#direct-buy-button {
+    position: absolute;
+    left: 50%;
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    text-align: center;
+    width: 90%;
+    background-color:#DA291C;
+    color: white;
+}
+
+.product-detail-info-container {
+    margin-top: 15%;
 }
