@@ -14,7 +14,11 @@
   <div class="card-body">
     <span class="badge badge-primary">{{product.kinds}}</span>
     <span class="badge badge-secondary">롯데 마트</span>
-    <h5 class="card-title">[잠실점] {{product.product.name}}</h5>
+    <h5 class="card-title">
+      <a href="{% url 'show_on_sale_product_detail' product.id %}" style="color: #636363;">
+        [잠실점] {{product.product.name}}
+      </a>
+    </h5>
     <p class="card-text">
       {{product.product.price}} -> {{product.price}}
     </p>
