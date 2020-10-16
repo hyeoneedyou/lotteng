@@ -55,7 +55,7 @@ def show_on_sale_product_list(request):
 시장 철수, 할인 마감등이 되지 않은 할인 중인 상품 목록을 
 다른 페이지에서 사용하기 위한 함수
 '''
-def get_on_sale_product_list(page, page_cnt):
+def get_on_sale_product_list(page, page_cnt = DEFAULT_PAGE_CNT):
     # query
     time_threshold = datetime.now()
 
@@ -101,7 +101,7 @@ def show_on_sale_product_detail(request, id):
 시장 철수, 할인 마감등이 되지 않은 할인 중인 상품을 
 다른 페이지에서 사용하기 위한 함수
 '''
-def get_on_sale_product_detail():
+def get_on_sale_product_detail(id):
     product = get_object_or_404(OnSaleProduct, pk = id)
 
     # 할인 시간이 지난 경우의 상품의 detail 페이지를 요구하는 경우

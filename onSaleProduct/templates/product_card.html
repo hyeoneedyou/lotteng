@@ -12,20 +12,20 @@
     </div>
   </div>
   <div class="card-body">
-    <span class="badge badge-primary">마감 세일</span>
+    <span class="badge badge-primary">{{product.kinds}}</span>
     <span class="badge badge-secondary">롯데 마트</span>
-    <h5 class="card-title">[잠실점] 싱싱한 오징어</h5>
+    <h5 class="card-title">[잠실점] {{product.product.name}}</h5>
     <p class="card-text">
-      20000 -> 15000
+      {{product.product.price}} -> {{product.price}}
     </p>
     <p class = "card-text">
       <svg width="1rem" height="1rem" viewBox="0 0 16 16" class="bi bi-stopwatch" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="color: #DA291C; display: inline;">
         <path fill-rule="evenodd" d="M6 .5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1H9v1.07A7.001 7.001 0 0 1 8 16 7 7 0 0 1 7 2.07V1h-.5A.5.5 0 0 1 6 .5zM8 3a6 6 0 1 0 .001 12A6 6 0 0 0 8 3zm0 2.1a.5.5 0 0 1 .5.5V9a.5.5 0 0 1-.5.5H4.5a.5.5 0 0 1 0-1h3V5.6a.5.5 0 0 1 .5-.5z"/>
       </svg>
-      ~09/20 10:10:10 까지 
+      ~{{product.endDate}} 까지 
     </p>
     <p class = "card-text">
-      재고: 10
+      재고: {{product.stock}}
     </p>
 
     
