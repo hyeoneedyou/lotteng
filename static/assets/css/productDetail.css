@@ -1,0 +1,39 @@
+.company-box {
+    background-color: #3498db;
+    text-align: center;
+    border-radius: 10px;
+    color: white;
+    width: 100%;
+    padding: 1vh 0 1vh 0;
+    margin: 3vh auto 0 auto;
+}
+
+.product-info-container {
+    text-align: left;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.product-name {
+    padding-top: 10px;
+}
+
+.product-discount-ratio {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #DA291C;
+}
+
+.product-original-price {
+    text-decoration: line-through;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: black;
+}
+
+
+.product-discount-price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #DA291C;
+}
