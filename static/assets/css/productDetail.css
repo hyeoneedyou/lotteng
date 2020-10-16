@@ -30,7 +30,11 @@
     font-weight: bold;
     color: black;
 }
-
+.product-price-arrow {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: black;
+}
 
 .product-discount-price {
     font-size: 1.5rem;
