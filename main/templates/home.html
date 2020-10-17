@@ -7,12 +7,14 @@ Lotteng
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'assets/css/productCardList.css'%}">
 <link rel="stylesheet" href="{% static 'assets/css/productCard.css'%}">
+<link rel="stylesheet" href="{% static 'assets/css/pagination.css'%}">
 {% endblock%}
 
 {% block content %}
 {% include "nav.html" %}
 <section class = "content">
   {% include 'product_list.html' %}
+  {% include 'pagination.html' %}
 </section>
 {% include "footer.html" %}
 {% endblock%}
