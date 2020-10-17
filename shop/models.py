@@ -6,3 +6,7 @@ class Shop(models.Model):
     longitude = models.CharField(max_length=45)
     latitude = models.CharField(max_length=45)
     company = models.ForeignKey(Company, models.SET_NULL, blank = True, null = True)
+
+
+    def __str__(self):
+        return "["+self.name+"]"+self.company.name
