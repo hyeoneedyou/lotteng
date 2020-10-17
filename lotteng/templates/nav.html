@@ -36,7 +36,9 @@
                     {% if user.is_authenticated %} {# 유저가 로그인 중이면 #}
                     <div class="col-xl-1 col-lg-1 col-md-1 d-none d-sm-none d-md-block">
                       <button type="button" class="btn">
-                        <img class="shopping-cart " src="{% static 'assets/svg/cart.svg' %}" alt="" srcset="">
+                        <a href="{% url 'shoppingCart:shoppingcart_list' %}">
+                          <img class="shopping-cart " src="{% static 'assets/svg/cart.svg' %}" alt="" srcset="">
+                        </a>
                       </button>
                     </div>
 
