@@ -1,8 +1,114 @@
-detail page
-상품 이름: {{product.product.name}}<br>
-상품 정가: {{product.product.price}}<br>
-상품 할인가: {{product.price}}<br>
-상품 설명: {{product.product.info}}<br>
-상품 재고: {{product.stock}}<br>
-할인 종류: {{product.kinds}} <br>
-할인 종료 시간: {{product.endDate}}<br>
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Lotteng
+{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'assets/css/productDetail.css'%}">
+{% endblock%}
+
+{% block content %}
+{% include "nav.html" %}
+<section class="content">
+  <section class="row">
+    <div class="col-xl-1 col-1"></div>
+    <div class="col-xl-10 col-10">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 col-12">
+          <img src="http://placehold.it/1000X800" class="card-img-top" alt="...">
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 col-12 product-info-container">
+          <div class="company-box">
+            {{product.shop.company.name}} [{{product.shop.name}}]
+          </div>
+          <div class="product-inner-container">
+
+            <!-- 할인 종류: product.kinds <br> -->
+            <h3 class="product-name">
+              {{product.product.name}}
+            </h3>
+            {{product.product.sub_name}}
+            <hr width="80%">
+            <p>
+              유통기한 : 2020-10-02
+            </p>
+            <p>
+              <span class="product-discount-ratio">
+                25%
+              </span>
+              <span class="product-original-price">
+                {{product.product.price}}
+              </span>
+              <span class="product-price-arrow">
+                →
+              </span>
+              <span class="product-discount-price">
+                {{product.price}}
+              </span>
+            </p>
+
+            <p>
+              재고: {{product.stock}} 개
+            </p>
+            <p>
+              <svg width="1rem" height="1rem" viewBox="0 0 16 16" class="bi bi-stopwatch" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg" style="color: #DA291C; display: inline;">
+                <path fill-rule="evenodd"
+                  d="M6 .5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1H9v1.07A7.001 7.001 0 0 1 8 16 7 7 0 0 1 7 2.07V1h-.5A.5.5 0 0 1 6 .5zM8 3a6 6 0 1 0 .001 12A6 6 0 0 0 8 3zm0 2.1a.5.5 0 0 1 .5.5V9a.5.5 0 0 1-.5.5H4.5a.5.5 0 0 1 0-1h3V5.6a.5.5 0 0 1 .5-.5z" />
+              </svg>
+              ~{{product.endDate}} 까지
+            </p>
+
+            <div class="row purchace-cnt-input">
+              <div class="col-6">
+                <input id="purchase-cnt" type="number" value="1" min="1" max="100" step="1" />
+              </div>
+              <div class="col-6">
+                <span id="purchase-price">
+                  {{product.price}}원
+                </span>
+              </div>
+            </div>
+            
+            <div class="row purchase-button-container">
+              <div class="col-6 ">
+                <button class= "btn" id = "shopping-cart-button">
+                  장바구니 담기
+                </button>
+              </div>
+              <div class="col-6">
+                <button class= "btn" id = "direct-buy-button">
+                  바로 구매하기
+                </button>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-xl-12 col-12">
+          <div class="product-detail-info-container">
+            {{product.product.info}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-1 col-1"></div>
+  </section>
+</section>
+{% include "footer.html" %}
+{% endblock%}
+
+{% block script %}
+<script src="{% static 'assets/js/bootstrap-input-spinner.js'%}"></script>
+<script>
+  var price = {{ product.price }};
+  $("input[type='number']").inputSpinner()
+  $("#purchase-cnt").change(function () {
+    var cnt = $("#purchase-cnt").val()
+    $("#purchase-price").html(cnt * price + "원")
+  });
+</script>
+
+{% endblock%}

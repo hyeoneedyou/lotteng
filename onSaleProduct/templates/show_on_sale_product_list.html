@@ -1,10 +1,34 @@
-<h1>할인 목록</h1>
-{% for product in on_sale_products_current_page %}
-    상품 이름: {{product.product.name}}<br>
-    상품 정가: {{product.product.price}}<br>
-    상품 할인가: {{product.price}}<br>
-    상품 설명: {{product.product.info}}<br>
-    상품 재고: {{product.stock}}<br>
-    할인 종류: {{product.kinds}} <br>
-    할인 종료 시간: {{product.endDate}}<br>
-{% endfor%}
+
+
+
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Lotteng
+{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'assets/css/productCardList.css'%}">
+<link rel="stylesheet" href="{% static 'assets/css/productCard.css'%}">
+{% endblock%}
+
+{% block content %}
+{% include "nav.html" %}
+<section class="content">
+  <h2>
+    할인 목록
+  </h2>
+  <hr>
+
+  <div class="product-list-box">
+    <div class="row">
+      {% for product in on_sale_products_current_page %}
+       <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6 col-6 mb-3">
+        {% include 'product_card.html' %}
+      {% endfor%}
+      </div>
+    </div>
+  </div>
+</section>
+{% include "footer.html" %}
+{% endblock%}
