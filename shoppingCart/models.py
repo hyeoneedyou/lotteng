@@ -8,3 +8,4 @@ class ShoppingCart(models.Model):
     count = models.IntegerField(null = True, blank=True)
     createdAt = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now=True)
+
