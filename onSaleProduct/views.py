@@ -46,15 +46,13 @@ def show_on_sale_product_list(request):
     start = max(int(page)-PAGE_NAV_LEFT, 1)
     end = min(int(page)+PAGE_NAV_RIGHT, paginator.num_pages)
 
-    company_list = OnSaleProduct.objects.all()
-
     return render(request, 'show_on_sale_product_list.html',\
         {
             'on_sale_products_current_page': on_sale_products_current_page,
             'page': page, 
             'page_cnt': page_cnt, 
             'range' : [i for i in range(start, end+1)]
-            'company_list' : company_list,
+            
         })
 
 '''
@@ -119,10 +117,24 @@ def get_on_sale_product_detail(id):
     }
 
 def on_sale_product_search(request):
+    # request content
+    page = requestStrToInt(request.GET.get('page')) # page 넘버
+    page_cnt = requestStrToInt(request.GET.get('page_cnt', DEFAULT_PAGE_CNT)) # 한 페이지에 있는 상품의 수, defalt = 10
+
     on_sale_product_list = OnSaleProduct.objects.all()
     q = request.GET.get('q', '')
+    
+    # pagination
+    paginator = Paginator(on_sale_product_list, page_cnt)
+    on_sale_products_current_page = paginator.get_page(page)
+
+    # pagination nav bar range
+    start = max(int(page)-PAGE_NAV_LEFT, 1)
+    end = min(int(page)+PAGE_NAV_RIGHT, paginator.num_pages)
+
+    
     if q:
-        on_sale_product_list = on_sale_product_list.filter(product__name__icontains = q)
+        on_sale_product_list = on_sale_product_list.filter(Q(shop__name__icontains = q) | Q(product__name__icontains = q) | Q(shop__company__name__icontains = q))
     return render(request, 'search.html', {
         'on_sale_product_search' : on_sale_product_list,
         'q' : q,
@@ -130,17 +142,15 @@ def on_sale_product_search(request):
 
 
 def get_company_filter():
-   company_list = OnSaleProduct.objects.all()
-
-   f = request.GET.getlist('f')
-
-   if f:
-       query = Q()
-       for i in f:
-           query = query | Q(Shop__company__icontains = i)
-           company_list = company_list.filter(query)
-
     company_list = OnSaleProduct.objects.all()
+
+    f = request.GET.getlist('f')
+
+    if f:
+        query = Q()
+        for i in f:
+            query = query | Q(Shop__company__icontains = i)
+            company_list = company_list.filter(query)
 
     context = {'company_list':company_list}
     
@@ -148,17 +158,15 @@ def get_company_filter():
 
 
 def post_company_filter():
-   company_list = OnSaleProduct.objects.all()
-
-   f = request.POST.getlist('f')
-
-   if f:
-       query = Q()
-       for i in f:
-           query = query | Q(Shop__company__icontains = i)
-           company_list = company_list.filter(query)
-
     company_list = OnSaleProduct.objects.all()
+
+    f = request.POST.getlist('f')
+
+    if f:
+        query = Q()
+        for i in f:
+            query = query | Q(Shop__company__icontains = i)
+            company_list = company_list.filter(query)
 
     context = {'company_list':company_list}
     
