@@ -111,3 +111,13 @@ def get_on_sale_product_detail(id):
     return {
         'product': product,
     }
+
+def on_sale_product_search(request):
+    on_sale_product_list = OnSaleProduct.objects.all()
+    q = request.GET.get('q', '')
+    if q:
+        on_sale_product_list = on_sale_product_list.filter(product__name__icontains = q)
+    return render(request, 'search.html', {
+        'on_sale_product_search' : on_sale_product_list,
+        'q' : q,
+    })
