@@ -22,15 +22,17 @@
                     </div>
 
                     <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9 col-9">
-                      <div class="input-group" id="search-bar-box">
-                        <input type="text" class="form-control" name="search-bar" id="search-bar"
-                          placeholder="검색어를 입력해주세요..">
-                        <span class="input-group-btn">
-                          <button class="btn" type="button">
-                            <img src="{% static 'assets/svg/search.svg' %}" alt="" style="width: 100%;">
-                          </button>
-                        </span>
-                      </div>
+                      <form action="{% url 'search' %}" method="get">
+                        <div class="input-group" id="search-bar-box">
+                            <input type="text" class="form-control" name="q" id="search-bar" value="{{ q }}"
+                            placeholder="검색어를 입력해주세요..">
+                          <span class="input-group-btn">
+                            <button class="btn" type="submit">
+                              <img src="{% static 'assets/svg/search.svg' %}" alt="" style="width: 100%;">
+                            </button>
+                          </span>
+                        </div>
+                      </form>
                     </div>
 
                     {% if user.is_authenticated %} {# 유저가 로그인 중이면 #}
@@ -88,15 +90,17 @@
                 <div class="col-md-2 col-sm-1 col-xs-1 col-1"></div>
 
                 <div class="col-md-11 col-sm-11 col-xs-11 col-11">
-                  <div class="input-group" id="search-bar-box">
-                    <input type="text" class="form-control" name="search-bar" id="search-bar"
-                      placeholder="검색어를 입력해주세요..">
-                    <span class="input-group-btn">
-                      <button class="btn" type="button">
-                        <img src="{% static 'assets/svg/search.svg' %}" alt="" style="width: 100%;">
-                      </button>
-                    </span>
-                  </div>
+                  <form action="{% url 'search' %}" method="get">
+                    <div class="input-group" id="search-bar-box">
+                        <input type="text" class="form-control" name="q" id="search-bar" value="{{ q }}"
+                        placeholder="검색어를 입력해주세요..">
+                      <span class="input-group-btn">
+                        <button class="btn" type="submit">
+                          <img src="{% static 'assets/svg/search.svg' %}" alt="" style="width: 100%;">
+                        </button>
+                      </span>
+                    </div>
+                  </form>
                 </div>
                 <div class="col-md-1 col-sm-1 col-xs-1 col-1">
                   <button id="sidebarCollapse" type="button" class="btn rounded-pill shadow-sm" style="background-color: #DCDCDC;">
@@ -117,7 +121,7 @@
 <!-- side nav-->
 <div class="d-lg-none vertical-nav bg-white" id="sidebar">
   <div class="py-4 px-3 mb-4" style="background-color: #DCDCDC;">
-    <div class="media d-flex align-items-center"><img src="https://res.cloudinary.com/mhmd/image/upload/v1556074849/avatar-1_tcnd60.png" alt="..." width="65" class="mr-3 rounded-circle img-thumbnail shadow-sm">
+    <div class="media d-flex align-items-center">
       <div class="media-body">
         {% if user.is_authenticated %} {# 유저가 로그인 중이면 #}
 
