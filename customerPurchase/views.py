@@ -1,5 +1,6 @@
 from django.shortcuts import render
-import random 
+import random
+from .models import CustomerPurchase
 
 # Create your views here.
 def purchasecode(request):
@@ -18,3 +19,9 @@ def card(request):
 
 def phone(request):
     return render(request, "customerPurchase/phone.html")
+
+def purchaselist(request):
+    purchase_list = CustomerPurchase.objects.all()
+    purchase_list = purchase_list.filter(customer__user = request.user)
+
+    return render(request, "customerPurchase/purchaselist.html", {"purchase_list": purchase_list})
