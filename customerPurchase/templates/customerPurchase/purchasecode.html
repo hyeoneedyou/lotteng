@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Lotteng purchasecode
+{% endblock %}
+{% block content %}
+<h1>결제 완료</h1>
+<h2>결제가 완료되었습니다.</h2>
+결제 인증 번호 : {{code}}
+<h2>매장 직원에게 결제 코드를 보여주세요.</h2>
+    {% include "nav.html" %}
+{% endblock %}

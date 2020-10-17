@@ -1,0 +1,76 @@
+body {
+  background-color: #F4F4F4;
+}
+
+header, section {
+  margin: 0 5vw 0 5vw;
+}
+
+#search-bar-box {
+  border: 1px solid #707070;
+  border-radius: 4px;
+}
+#search-bar {
+  text-align: center;
+  border: none;
+}
+
+.login-box-container {
+  margin: 0 auto 0 auto;
+}
+.login-box {
+  background-color: #DA291C;
+  color: white;
+  white-space: nowrap;
+}
+
+.login-box button {
+  margin: 0 auto 0 auto;
+}
+
+.shopping-cart {
+  height: 2rem;
+}
+
+.vertical-nav {
+  min-width: 17rem;
+  width: 17rem;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: 0;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s;
+  z-index: 9999;
+}
+
+#sidebar.active {
+  margin-right: -17rem;
+}
+
+@media (max-width: 768px) {
+  #sidebar {
+    margin-left: -17rem;
+  }
+  #sidebar.active {
+    margin-left: 0;
+  }
+  #content {
+    width: 100%;
+    margin: 0;
+  }
+  #content.active {
+    margin-left: 17rem;
+    width: calc(100% - 17rem);
+  }
+}
+
+#content.active {
+  width: 100%;
+  margin: 0;
+}
+
+
+.dropdown-item:active {
+  background-color: #707070;
+}

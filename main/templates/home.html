@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Lotteng
+{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'assets/css/productCardList.css'%}">
+<link rel="stylesheet" href="{% static 'assets/css/productCard.css'%}">
+{% endblock%}
+
+{% block content %}
+{% include "nav.html" %}
+<section class = "content">
+  {% include 'product_list.html' %}
+</section>
+{% include "footer.html" %}
+{% endblock%}

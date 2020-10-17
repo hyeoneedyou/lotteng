@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <title>{% block title%} {%endblock%}</title>
+    <link rel="stylesheet" href="{% static 'assets/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/footer.css' %}">
+    <link rel="shortcut icon" href="{% static 'assets/img/lotteng-small-logo.png'%}" type="image/x-icon">
+    {% block stylesheet %}
+    {% endblock %}
+</head>
+<body>
+    
+    {% block content %}
+    {% endblock %}
+
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src = "{% static 'bootstrap/js/bootstrap.min.js' %}"> </script>
+    <script src = "{% static 'assets/js/base.js'%}"></script>
+    {% block script%}
+    {% endblock %}
+</body>
+</html>
