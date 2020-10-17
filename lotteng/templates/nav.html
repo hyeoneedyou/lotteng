@@ -22,15 +22,17 @@
                     </div>
 
                     <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9 col-9">
-                      <div class="input-group" id="search-bar-box">
-                        <input type="text" class="form-control" name="search-bar" id="search-bar"
-                          placeholder="검색어를 입력해주세요..">
-                        <span class="input-group-btn">
-                          <button class="btn" type="button">
-                            <img src="{% static 'assets/svg/search.svg' %}" alt="" style="width: 100%;">
-                          </button>
-                        </span>
-                      </div>
+                      <form action="{% url 'search' %}" method="get">
+                        <div class="input-group" id="search-bar-box">
+                            <input type="text" class="form-control" name="q" id="search-bar" value="{{ q }}"
+                            placeholder="검색어를 입력해주세요..">
+                          <span class="input-group-btn">
+                            <button class="btn" type="submit">
+                              <img src="{% static 'assets/svg/search.svg' %}" alt="" style="width: 100%;">
+                            </button>
+                          </span>
+                        </div>
+                      </form>
                     </div>
 
                     {% if user.is_authenticated %} {# 유저가 로그인 중이면 #}
