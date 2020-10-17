@@ -10,6 +10,9 @@ class Customer(models.Model):
     email = models.CharField(max_length=45)
     permission = models.IntegerField(null = True, blank=True)
 
+    def __str__(self):
+        return self.user.username
+
 @receiver(post_save, sender = User)
 def create_user_customer(sender, instance, created, **kwargs):
     if created:
