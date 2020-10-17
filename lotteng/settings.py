@@ -37,6 +37,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+X_FRAME_OPTIONS = 'SAMEORIGIN' 
 
 # Application definition
 
@@ -56,6 +57,7 @@ INSTALLED_APPS = [
     'main',
     'shoppingCart',
     'django.contrib.sites',
+    'mdeditor',
     'allauth',
     'allauth.account',
     'allauth.socialaccount', 
