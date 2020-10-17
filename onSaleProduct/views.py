@@ -3,6 +3,9 @@ from django.shortcuts import get_object_or_404, render
 from .models import OnSaleProduct
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import datetime, timedelta
+from django.db.models import Q
+from django.http import HttpResponse
+import json
 
 DEFAULT_PAGE_CNT = 10 # 한 페이지에 있는 상품의 기본 개수 
 PAGE_NAV_LEFT = 5 # pageination nav bar의 왼쪽 넘버링 개수
@@ -43,12 +46,15 @@ def show_on_sale_product_list(request):
     start = max(int(page)-PAGE_NAV_LEFT, 1)
     end = min(int(page)+PAGE_NAV_RIGHT, paginator.num_pages)
 
+    company_list = OnSaleProduct.objects.all()
+
     return render(request, 'show_on_sale_product_list.html',\
         {
             'on_sale_products_current_page': on_sale_products_current_page,
             'page': page, 
             'page_cnt': page_cnt, 
             'range' : [i for i in range(start, end+1)]
+            'company_list' : company_list,
         })
 
 '''
@@ -111,3 +117,39 @@ def get_on_sale_product_detail(id):
     return {
         'product': product,
     }
+
+def get_company_filter():
+   company_list = OnSaleProduct.objects.all()
+
+   f = request.GET.getlist('f')
+
+   if f:
+       query = Q()
+       for i in f:
+           query = query | Q(Shop__company__icontains = i)
+           company_list = company_list.filter(query)
+
+    company_list = OnSaleProduct.objects.all()
+
+    context = {'company_list':company_list}
+    
+    return HttpResponse(json.dumps(context), content_type="application/json")
+
+
+def post_company_filter():
+   company_list = OnSaleProduct.objects.all()
+
+   f = request.POST.getlist('f')
+
+   if f:
+       query = Q()
+       for i in f:
+           query = query | Q(Shop__company__icontains = i)
+           company_list = company_list.filter(query)
+
+    company_list = OnSaleProduct.objects.all()
+
+    context = {'company_list':company_list}
+    
+    return HttpResponse(json.dumps(context), content_type="application/json")
+
