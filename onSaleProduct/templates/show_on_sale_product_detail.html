@@ -36,7 +36,12 @@ Lotteng
             <hr width="80%">
             <p>
               <span class="product-discount-ratio">
-                25%
+                <script>
+                  var org = {{product.product.price}};
+                  var dis = {{product.price}};
+                  var ratio = (org - dis)/org * 100;
+                  document.write(Math.round(ratio)+"%");
+                </script>
               </span>
               <span class="product-original-price">
                 {{product.product.price}}

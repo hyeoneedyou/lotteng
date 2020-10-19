@@ -29,3 +29,23 @@
     height:auto;
     display:block;
 }
+
+.product-discount-ratio {
+    font-weight: bold;
+    color: #DA291C;
+}
+
+.product-original-price {
+    text-decoration: line-through;
+    font-weight: bold;
+    color: black;
+}
+.product-price-arrow {
+    font-weight: bold;
+    color: black;
+}
+
+.product-discount-price { 
+    font-weight: bold;
+    color: #DA291C;
+}

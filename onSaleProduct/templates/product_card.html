@@ -25,8 +25,24 @@
         [{{product.shop.name}}] {{product.product.name}}
       </a>
     </h5>
-    <p class="card-text">
-      {{product.product.price}} -> {{product.price}}
+    <p>
+      <span class="product-discount-ratio">
+        <script>
+          var org = {{product.product.price}};
+          var dis = {{product.price}};
+          var ratio = (org - dis)/org * 100;
+          document.write(Math.round(ratio)+"%");
+        </script>
+      </span>
+      <span class="product-original-price">
+        {{product.product.price}}
+      </span>
+      <span class="product-price-arrow">
+        →
+      </span>
+      <span class="product-discount-price">
+        {{product.price}}
+      </span>
     </p>
     <p class="card-text">
       <svg width="1rem" height="1rem" viewBox="0 0 16 16" class="bi bi-stopwatch" fill="currentColor"
