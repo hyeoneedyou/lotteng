@@ -43,15 +43,11 @@ Lotteng
                   document.write(Math.round(ratio)+"%");
                 </script>
               </span>
-              <span class="product-original-price">
-                {{product.product.price}}
-              </span>
+              <span class="product-original-price" id = "product-original-price"></span>
               <span class="product-price-arrow">
                 →
               </span>
-              <span class="product-discount-price">
-                {{product.price}}
-              </span>
+              <span class="product-discount-price" id = "product-discount-price"></span>
             </p>
 
             <p>
@@ -115,6 +111,15 @@ Lotteng
     var cnt = $("#purchase-cnt").val()
     $("#purchase-price").html(cnt * price + "원")
   });
+
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  $("#product-original-price").html(numberWithCommas({{product.product.price}}));
+  $("#product-discount-price").html(numberWithCommas({{product.price}}));
+  
+
 </script>
 
 {% endblock%}

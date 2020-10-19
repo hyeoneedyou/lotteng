@@ -34,14 +34,24 @@
           document.write(Math.round(ratio)+"%");
         </script>
       </span>
-      <span class="product-original-price">
-        {{product.product.price}}
+      <span class="product-original-price" id = "product-original-price">
+        <script>
+          function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          }
+          document.write(numberWithCommas({{product.product.price}}));
+        </script>
       </span>
       <span class="product-price-arrow">
         →
       </span>
-      <span class="product-discount-price">
-        {{product.price}}
+      <span class="product-discount-price" id = "product-discount-price">
+        <script>
+          function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          }
+          document.write(numberWithCommas({{product.price}}));
+        </script>
       </span>
     </p>
     <p class="card-text">
