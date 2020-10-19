@@ -1,30 +1,53 @@
+import json
+from django.http import request
+from django.http.response import HttpResponse
+from customer.models import Customer
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from onSaleProduct.models import OnSaleProduct
 from .models import ShoppingCart
 
 @login_required
-def like(request):
+def put_one_product(request):
+    pass
+
+@login_required
+def put_shopping_cart(request):
     # ajax 통신을 통해서 template에서 POST방식으로 전달
     onSaleProduct_id = request.POST.get('onSaleProduct_id', None)
+    print("요청: ", onSaleProduct_id)
+    cnt = int(request.POST.get('cnt', 1))
+    inDetail = request.POST.get('inDetail', False)
 
-    onSaleProduct = get_object_or_404(onSaleProduct, pk=onSaleProduct_id)
+    shoppingCartList = ShoppingCart.objects.all()
+    shoppingCartList = shoppingCartList.filter(customer__user=request.user)
 
-    if request.user in onSaleProduct.like.all():
-        onSaleProduct.like.remove(request.user)
-        isLiked = False
-        message = "좋아요 취소"
+    isPutCart = True
+
+    for cartProduct in shoppingCartList:
+        print("cart에 : ", cartProduct.onSaleProduct.id)
+        if int(cartProduct.onSaleProduct.id) == int(onSaleProduct_id):
+            if inDetail:
+                isPutCart = True
+                tmp = cartProduct
+                tmp.count += cnt
+                tmp.save()
+            else:
+                isPutCart = False
+                tmp = cartProduct
+                tmp.delete()
+            break
     else:
-        isLiked = True
-        onSaleProduct.like.add(request.user)
-        message = "좋아요"
-    
-    represent_user = ""
-    if len(onSaleProduct.like.all()) > 0:
-        represent_user = onSaleProduct.like.all()[0].username
+        isPutCart = True
+        tmp = ShoppingCart(
+            onSaleProduct = OnSaleProduct.objects.filter(pk = onSaleProduct_id).first(), 
+            customer = Customer.objects.filter(user = request.user).first(),
+            count = cnt
+        )
+        tmp.save()
     
     context = {'username': str(request.user.username),
-            "isLiked": isLiked}
+            "isPutCart": isPutCart}
     
     return HttpResponse(json.dumps(context), content_type="application/json")
 
@@ -32,7 +55,6 @@ def like(request):
 def shoppingcart_list(request):
     shoppings = ShoppingCart.objects.all()
     shoppings = shoppings.filter(customer__user=request.user)
-    print(shoppings)
     return render(request,'shoppingcart.html',{'shoppings': shoppings})
 
     # on_sale_products = OnSaleProduct.objects.all()

@@ -120,6 +120,30 @@ Lotteng
     $("#purchase-price").html(cnt * price + "원")
     $("#purchase-modal-price").html(cnt * price + "원")
   });
+
+
+
+  $("#modal-shopping-cart-button").click(function () {
+    var onSaleProduct_id = "{{product.id}}";
+    var cnt = $("#purchase-cnt").val();
+    $.ajax({
+        type: "POST",
+        url: "{% url 'put_shopping_cart' %}",
+        data: { 'onSaleProduct_id': onSaleProduct_id, 'cnt': cnt, 'inDetail': true, 'csrfmiddlewaretoken': '{{ csrf_token }}' },
+        dataType: "json",
+        success: function (response) {
+            if (response.isPutCart) {
+              alert("담겼습니다.");
+            }
+            else {
+              alert("취소");
+            }
+        },
+        error: function (request, status, error) {
+            alert("로그인이 필요합니다.")
+        },
+    });
+})
 </script>
 
 {% endblock%}
