@@ -74,9 +74,10 @@ Lotteng
             
             <div class="row purchase-button-container">
               <div class="col-6 ">
-                <button class= "btn" id = "shopping-cart-button">
+                <button type="button"  class= "btn" id = "shopping-cart-button" data-toggle="modal" data-target="#purchaseModal">
                   장바구니 담기
                 </button>
+                {% include 'purchase_modal.html' %}
               </div>
               <div class="col-6">
                 <button class= "btn" id = "direct-buy-button">
@@ -108,7 +109,16 @@ Lotteng
   $("input[type='number']").inputSpinner()
   $("#purchase-cnt").change(function () {
     var cnt = $("#purchase-cnt").val()
+    $("#purchase-modal-cnt").val(cnt)
+    $("#purchase-modal-price").html(cnt * price + "원")
     $("#purchase-price").html(cnt * price + "원")
+  });
+
+  $("#purchase-modal-cnt").change(function () {
+    var cnt = $("#purchase-modal-cnt").val()
+    $("#purchase-cnt").val(cnt)
+    $("#purchase-price").html(cnt * price + "원")
+    $("#purchase-modal-price").html(cnt * price + "원")
   });
 </script>
 
