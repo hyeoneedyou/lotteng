@@ -2,7 +2,11 @@
 
 <div class="card">
   <div class="card-header">
-    <img src="http://placehold.it/1000X800" class="card-img-top" alt="...">
+    {% if product.product.represent_image %}
+      <img src="{{product.product.represent_image.url}}" class="card-img-top" alt="...">
+    {% else %}
+      <img src="http://placehold.it/1000X800" class="card-img-top" alt="...">
+    {% endif %}
     <div class = "cart-circle-button">
       <a href="{% url 'shoppingCart:onSaleProduct' product.id %}">
 
