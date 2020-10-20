@@ -36,17 +36,18 @@ Lotteng
             <hr width="80%">
             <p>
               <span class="product-discount-ratio">
-                25%
+                <script>
+                  var org = {{product.product.price}};
+                  var dis = {{product.price}};
+                  var ratio = (org - dis)/org * 100;
+                  document.write(Math.round(ratio)+"%");
+                </script>
               </span>
-              <span class="product-original-price">
-                {{product.product.price}}
-              </span>
+              <span class="product-original-price" id = "product-original-price"></span>
               <span class="product-price-arrow">
                 →
               </span>
-              <span class="product-discount-price">
-                {{product.price}}
-              </span>
+              <span class="product-discount-price" id = "product-discount-price"></span>
             </p>
 
             <p>
@@ -121,8 +122,6 @@ Lotteng
     $("#purchase-modal-price").html(cnt * price + "원")
   });
 
-
-
   $("#modal-shopping-cart-button").click(function () {
     var onSaleProduct_id = "{{product.id}}";
     var cnt = $("#purchase-cnt").val();
@@ -144,6 +143,13 @@ Lotteng
         },
     });
 })
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  $("#product-original-price").html(numberWithCommas({{product.product.price}}));
+  $("#product-discount-price").html(numberWithCommas({{product.price}}));
+  
 </script>
 
 {% endblock%}
