@@ -3,6 +3,9 @@ from django.shortcuts import get_object_or_404, render
 from .models import OnSaleProduct
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import datetime, timedelta
+from django.db.models import Q
+from django.http import HttpResponse
+import json
 
 DEFAULT_PAGE_CNT = 10 # 한 페이지에 있는 상품의 기본 개수 
 PAGE_NAV_LEFT = 5 # pageination nav bar의 왼쪽 넘버링 개수
@@ -49,6 +52,7 @@ def show_on_sale_product_list(request):
             'page': page, 
             'page_cnt': page_cnt, 
             'range' : [i for i in range(start, end+1)]
+            
         })
 
 '''
@@ -111,3 +115,60 @@ def get_on_sale_product_detail(id):
     return {
         'product': product,
     }
+
+def on_sale_product_search(request):
+    # request content
+    page = requestStrToInt(request.GET.get('page')) # page 넘버
+    page_cnt = requestStrToInt(request.GET.get('page_cnt', DEFAULT_PAGE_CNT)) # 한 페이지에 있는 상품의 수, defalt = 10
+
+    on_sale_product_list = OnSaleProduct.objects.all()
+    q = request.GET.get('q', '')
+    
+    # pagination
+    paginator = Paginator(on_sale_product_list, page_cnt)
+    on_sale_products_current_page = paginator.get_page(page)
+
+    # pagination nav bar range
+    start = max(int(page)-PAGE_NAV_LEFT, 1)
+    end = min(int(page)+PAGE_NAV_RIGHT, paginator.num_pages)
+
+    
+    if q:
+        on_sale_product_list = on_sale_product_list.filter(Q(shop__name__icontains = q) | Q(product__name__icontains = q) | Q(shop__company__name__icontains = q))
+    return render(request, 'search.html', {
+        'on_sale_product_search' : on_sale_product_list,
+        'q' : q,
+    })
+
+
+def get_company_filter():
+    company_list = OnSaleProduct.objects.all()
+
+    f = request.GET.getlist('f')
+
+    if f:
+        query = Q()
+        for i in f:
+            query = query | Q(Shop__company__icontains = i)
+            company_list = company_list.filter(query)
+
+    context = {'company_list':company_list}
+    
+    return HttpResponse(json.dumps(context), content_type="application/json")
+
+
+def post_company_filter():
+    company_list = OnSaleProduct.objects.all()
+
+    f = request.POST.getlist('f')
+
+    if f:
+        query = Q()
+        for i in f:
+            query = query | Q(Shop__company__icontains = i)
+            company_list = company_list.filter(query)
+
+    context = {'company_list':company_list}
+    
+    return HttpResponse(json.dumps(context), content_type="application/json")
+

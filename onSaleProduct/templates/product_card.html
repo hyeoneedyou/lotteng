@@ -2,11 +2,17 @@
 
 <div class="card">
   <div class="card-header">
-    <img src="http://placehold.it/1000X800" class="card-img-top" alt="...">
+    {% if product.product.represent_image %}
+      <img src="{{product.product.represent_image.url}}" class="card-img-top" alt="...">
+    {% else %}
+      <img src="http://placehold.it/1000X800" class="card-img-top" alt="...">
+    {% endif %}
     <div class = "cart-circle-button">
-      <a href="/">
+      <a href="{% url 'put_one_product' product.id %}">
+
         <svg viewBox="0 0 16 16" class="bi bi-cart" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+          <path fill-rule="evenodd"
+            d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
         </svg>
       </a>
     </div>
@@ -19,19 +25,47 @@
         [{{product.shop.name}}] {{product.product.name}}
       </a>
     </h5>
+    <p>
+      <span class="product-discount-ratio">
+        <script>
+          var org = {{product.product.price}};
+          var dis = {{product.price}};
+          var ratio = (org - dis)/org * 100;
+          document.write(Math.round(ratio)+"%");
+        </script>
+      </span>
+      <span class="product-original-price" id = "product-original-price">
+        <script>
+          function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          }
+          document.write(numberWithCommas({{product.product.price}}));
+        </script>
+      </span>
+      <span class="product-price-arrow">
+        →
+      </span>
+      <span class="product-discount-price" id = "product-discount-price">
+        <script>
+          function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          }
+          document.write(numberWithCommas({{product.price}}));
+        </script>
+      </span>
+    </p>
     <p class="card-text">
-      {{product.product.price}} -> {{product.price}}
-    </p>
-    <p class = "card-text">
-      <svg width="1rem" height="1rem" viewBox="0 0 16 16" class="bi bi-stopwatch" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="color: #DA291C; display: inline;">
-        <path fill-rule="evenodd" d="M6 .5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1H9v1.07A7.001 7.001 0 0 1 8 16 7 7 0 0 1 7 2.07V1h-.5A.5.5 0 0 1 6 .5zM8 3a6 6 0 1 0 .001 12A6 6 0 0 0 8 3zm0 2.1a.5.5 0 0 1 .5.5V9a.5.5 0 0 1-.5.5H4.5a.5.5 0 0 1 0-1h3V5.6a.5.5 0 0 1 .5-.5z"/>
+      <svg width="1rem" height="1rem" viewBox="0 0 16 16" class="bi bi-stopwatch" fill="currentColor"
+        xmlns="http://www.w3.org/2000/svg" style="color: #DA291C; display: inline;">
+        <path fill-rule="evenodd"
+          d="M6 .5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1H9v1.07A7.001 7.001 0 0 1 8 16 7 7 0 0 1 7 2.07V1h-.5A.5.5 0 0 1 6 .5zM8 3a6 6 0 1 0 .001 12A6 6 0 0 0 8 3zm0 2.1a.5.5 0 0 1 .5.5V9a.5.5 0 0 1-.5.5H4.5a.5.5 0 0 1 0-1h3V5.6a.5.5 0 0 1 .5-.5z" />
       </svg>
-      ~{{product.endDate}} 까지 
+      ~{{product.endDate}} 까지
     </p>
-    <p class = "card-text">
+    <p class="card-text">
       재고: {{product.stock}}
     </p>
 
-    
+
   </div>
 </div>

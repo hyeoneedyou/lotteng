@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated %}
+<h1>결제 내역</h1>
+{% for product in purchase_list %}
+    {{product.onSaleProduct.product.name}}
+{% endfor%}
+{% endif %}
+{% endblock %}

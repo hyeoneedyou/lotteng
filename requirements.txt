@@ -4,6 +4,7 @@ chardet==3.0.4
 defusedxml==0.6.0
 Django==3.1.1
 django-allauth==0.42.0
+django-mdeditor==0.1.18
 idna==2.10
 oauthlib==3.1.0
 Pillow==7.2.0

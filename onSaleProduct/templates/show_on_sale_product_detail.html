@@ -16,7 +16,11 @@ Lotteng
     <div class="col-xl-10 col-10">
       <div class="row">
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 col-12">
-          <img src="http://placehold.it/1000X800" class="card-img-top" alt="...">
+          {% if product.product.represent_image %}
+            <img src="{{product.product.represent_image.url}}" class="card-img-top" alt="...">
+          {% else %}
+            <img src="http://placehold.it/1000X800" class="card-img-top" alt="...">
+          {% endif %}
         </div>
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 col-12 product-info-container">
           <div class="company-box">
@@ -31,21 +35,19 @@ Lotteng
             {{product.product.sub_name}}
             <hr width="80%">
             <p>
-              유통기한 : 2020-10-02
-            </p>
-            <p>
               <span class="product-discount-ratio">
-                25%
+                <script>
+                  var org = {{product.product.price}};
+                  var dis = {{product.price}};
+                  var ratio = (org - dis)/org * 100;
+                  document.write(Math.round(ratio)+"%");
+                </script>
               </span>
-              <span class="product-original-price">
-                {{product.product.price}}
-              </span>
+              <span class="product-original-price" id = "product-original-price"></span>
               <span class="product-price-arrow">
                 →
               </span>
-              <span class="product-discount-price">
-                {{product.price}}
-              </span>
+              <span class="product-discount-price" id = "product-discount-price"></span>
             </p>
 
             <p>
@@ -73,9 +75,10 @@ Lotteng
             
             <div class="row purchase-button-container">
               <div class="col-6 ">
-                <button class= "btn" id = "shopping-cart-button">
+                <button type="button"  class= "btn" id = "shopping-cart-button" data-toggle="modal" data-target="#purchaseModal">
                   장바구니 담기
                 </button>
+                {% include 'purchase_modal.html' %}
               </div>
               <div class="col-6">
                 <button class= "btn" id = "direct-buy-button">
@@ -107,8 +110,46 @@ Lotteng
   $("input[type='number']").inputSpinner()
   $("#purchase-cnt").change(function () {
     var cnt = $("#purchase-cnt").val()
+    $("#purchase-modal-cnt").val(cnt)
+    $("#purchase-modal-price").html(cnt * price + "원")
     $("#purchase-price").html(cnt * price + "원")
   });
+
+  $("#purchase-modal-cnt").change(function () {
+    var cnt = $("#purchase-modal-cnt").val()
+    $("#purchase-cnt").val(cnt)
+    $("#purchase-price").html(cnt * price + "원")
+    $("#purchase-modal-price").html(cnt * price + "원")
+  });
+
+  $("#modal-shopping-cart-button").click(function () {
+    var onSaleProduct_id = "{{product.id}}";
+    var cnt = $("#purchase-cnt").val();
+    $.ajax({
+        type: "POST",
+        url: "{% url 'put_shopping_cart' %}",
+        data: { 'onSaleProduct_id': onSaleProduct_id, 'cnt': cnt, 'inDetail': true, 'csrfmiddlewaretoken': '{{ csrf_token }}' },
+        dataType: "json",
+        success: function (response) {
+            if (response.isPutCart) {
+              alert("담겼습니다.");
+            }
+            else {
+              alert("취소");
+            }
+        },
+        error: function (request, status, error) {
+            alert("로그인이 필요합니다.")
+        },
+    });
+})
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  $("#product-original-price").html(numberWithCommas({{product.product.price}}));
+  $("#product-discount-price").html(numberWithCommas({{product.price}}));
+  
 </script>
 
 {% endblock%}
