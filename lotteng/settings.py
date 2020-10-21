@@ -12,9 +12,12 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os, json
 from django.core.exceptions import ImproperlyConfigured
+import mimetypes
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+mimetypes.add_type("text/css", ".css", True)
 
 secret_file = os.path.join(BASE_DIR, 'secrets.json') # secrets.json 파일 위치를 명시
 
@@ -141,11 +144,14 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#STATICFILES_DIRS = [
+#    os.path.join(BASE_DIR, 'static'),
+#    os.path.join(BASE_DIR, 'main', 'static'),
+#    os.path.join(BASE_DIR, 'lotteng', 'static')
+#]
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'lotteng', 'static'),
-#     os.path.join(BASE_DIR, 'main', 'static'),
-# ]
 
 # Media files
 
