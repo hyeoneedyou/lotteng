@@ -1,0 +1,178 @@
+[
+  { "model": "company.company", "pk": "롭스", "fields": {} },
+  { "model": "company.company", "pk": "롯데리아", "fields": {} },
+  { "model": "company.company", "pk": "롯데마트", "fields": {} },
+  { "model": "company.company", "pk": "롯데백화점", "fields": {} },
+  { "model": "company.company", "pk": "롯데호텔", "fields": {} },
+  { "model": "company.company", "pk": "세븐일레븐", "fields": {} },
+  {
+    "model": "shop.shop",
+    "pk": 1,
+    "fields": {
+      "name": "신천점",
+      "longitude": "127.083186991735",
+      "latitude": "37.5113890255791",
+      "company": "롭스"
+    }
+  },
+  {
+    "model": "shop.shop",
+    "pk": 2,
+    "fields": {
+      "name": "코엑스몰점",
+      "longitude": "127.050387028274",
+      "latitude": "37.5044682122431",
+      "company": "롭스"
+    }
+  },
+  {
+    "model": "shop.shop",
+    "pk": 3,
+    "fields": {
+      "name": "건대점",
+      "longitude": "127.067932095125",
+      "latitude": "37.5411260816338",
+      "company": "롭스"
+    }
+  },
+  {
+    "model": "shop.shop",
+    "pk": 4,
+    "fields": {
+      "name": "강남점",
+      "longitude": "127.053254695846",
+      "latitude": "37.496979324799",
+      "company": "롯데백화점"
+    }
+  },
+  {
+    "model": "shop.shop",
+    "pk": 5,
+    "fields": {
+      "name": "스타시티점",
+      "longitude": "127.071214413664",
+      "latitude": "37.5389997704376",
+      "company": "롯데백화점"
+    }
+  },
+  {
+    "model": "shop.shop",
+    "pk": 6,
+    "fields": {
+      "name": "에비뉴엘 월드타워점",
+      "longitude": "127.104446890835",
+      "latitude": "37.5137519612953",
+      "company": "롯데백화점"
+    }
+  },
+  {
+    "model": "shop.shop",
+    "pk": 7,
+    "fields": {
+      "name": "강변점",
+      "longitude": "37.535725176732",
+      "latitude": "127.095692162256",
+      "company": "롯데마트"
+    }
+  },
+  {
+    "model": "shop.shop",
+    "pk": 8,
+    "fields": {
+      "name": "송파점",
+      "longitude": "127.117842816756",
+      "latitude": "37.4917620371568",
+      "company": "롯데마트"
+    }
+  },
+  {
+    "model": "shop.shop",
+    "pk": 9,
+    "fields": {
+      "name": "잠실광장점",
+      "longitude": "127.088764645515",
+      "latitude": "37.5063433050781",
+      "company": "세븐일레븐"
+    }
+  },
+  {
+    "model": "shop.shop",
+    "pk": 10,
+    "fields": {
+      "name": "송파석촌점",
+      "longitude": "127.098602647467",
+      "latitude": "37.5017546122904",
+      "company": "세븐일레븐"
+    }
+  },
+  {
+    "model": "shop.shop",
+    "pk": 11,
+    "fields": {
+      "name": "송파송리단점",
+      "longitude": "127.110266924361",
+      "latitude": "37.5079461877244",
+      "company": "세븐일레븐"
+    }
+  },
+  {
+    "model": "shop.shop",
+    "pk": 12,
+    "fields": {
+      "name": "오금일오산점",
+      "longitude": "127.127689482057",
+      "latitude": "37.5095065678431",
+      "company": "세븐일레븐"
+    }
+  },
+  {
+    "model": "shop.shop",
+    "pk": 13,
+    "fields": {
+      "name": "방이역점",
+      "longitude": "127.123730466666",
+      "latitude": "37.5097564849901",
+      "company": "롯데리아"
+    }
+  },
+  {
+    "model": "shop.shop",
+    "pk": 14,
+    "fields": {
+      "name": "강남일원점",
+      "longitude": "127.087276443803",
+      "latitude": "37.4923144898725",
+      "company": "롯데리아"
+    }
+  },
+  {
+    "model": "shop.shop",
+    "pk": 15,
+    "fields": {
+      "name": "문정로데오점",
+      "longitude": "127.125905728052",
+      "latitude": "37.490989034965",
+      "company": "롯데리아"
+    }
+  },
+  {
+    "model": "shop.shop",
+    "pk": 16,
+    "fields": {
+      "name": "롯데호텔 월드",
+      "longitude": "127.098141751177",
+      "latitude": "37.5113096112036",
+      "company": "롯데호텔"
+    }
+  },
+  {
+    "model": "shop.shop",
+    "pk": 17,
+    "fields": {
+      "name": "레이크뷰로프트",
+      "longitude": "127.100342687604",
+      "latitude": "37.5065737047164",
+      "company": "롯데백화점"
+    }
+  }
+]
