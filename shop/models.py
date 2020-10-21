@@ -2,6 +2,7 @@ from django.db import models
 from company.models import Company
 
 class Shop(models.Model):
+    objects = models.Manager()
     name = models.CharField(max_length=45)
     longitude = models.CharField(max_length=45)
     latitude = models.CharField(max_length=45)
