@@ -11,3 +11,7 @@ class Shop(models.Model):
 
     def __str__(self):
         return "["+self.name+"]"+self.company.name
+
+class AuthNumber(models.Model):
+    auth_number = models.IntegerField()
+    shop = models.ForeignKey(Shop, models.SET_NULL, blank=False, null = True)
