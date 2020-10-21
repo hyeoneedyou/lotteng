@@ -20,3 +20,29 @@ Lotteng
 </section>
 {% include "footer.html" %}
 {% endblock%}
+
+{% block script %}
+<script>
+  $(".cart-circle-button").click(function () {
+    var onSaleProduct_id = $(this).attr('id');
+    var cnt = 1;
+    $.ajax({
+        type: "POST",
+        url: "{% url 'put_one_product' %}",
+        data: { 'onSaleProduct_id': onSaleProduct_id, 'cnt': cnt, 'inDetail': true, 'csrfmiddlewaretoken': '{{ csrf_token }}' },
+        dataType: "json",
+        success: function (response) {
+            if (response.isPutCart) {
+              alert("장바구니에 담겼습니다.");
+            }
+            else {
+              alert("이미 장바구니에 담겨져있는 상품입니다.");
+            }
+        },
+        error: function (request, status, error) {
+            alert("로그인이 필요합니다.")
+        },
+    });
+})
+</script>
+{% endblock %}
