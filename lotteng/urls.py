@@ -1,10 +1,11 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.urls.conf import re_path
 from main import views
 from django.conf import settings 
 from django.conf.urls.static import static
-
+import re
+from django.views.static import serve
+from django.urls import re_path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home),
@@ -13,9 +14,10 @@ urlpatterns = [
     path('onSale/', include('onSaleProduct.urls')),
     path('main/', include('main.urls')),
     path('shoppingCart/', include('shoppingCart.urls')),
-    re_path(r'mdeditor/', include('mdeditor.urls'))
+    re_path(r'mdeditor/', include('mdeditor.urls')),
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root':settings.MEDIA_ROOT}),
+    re_path(r'^static/(?P<path>.*)$', serve, {'document_root':settings.STATIC_ROOT}),
 ]
 
-if settings.DEBUG:
-    # static files (images, css, javascript, etc.)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
