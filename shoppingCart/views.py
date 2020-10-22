@@ -2,11 +2,28 @@ import json
 from django.http import request
 from django.http.response import HttpResponse
 from customer.models import Customer
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from onSaleProduct.models import OnSaleProduct
 from shop.models import Shop
 from .models import ShoppingCart
+from django.shortcuts import get_object_or_404, render
+
+
+@login_required
+def pop_one_product(request):
+    shoppingCartId = request.POST.get('shoppin_cart_product_id', None)
+    
+    shoppingCartProduct = get_object_or_404(ShoppingCart, pk = shoppingCartId)
+    shoppingCartProductName = shoppingCartProduct.onSaleProduct.product.name
+
+    shoppingCartProduct.delete()
+
+    context = {
+        "productName":shoppingCartProductName,
+        "isPop" : True,
+    }
+
+    return HttpResponse(json.dumps(context), content_type="application/json")
 
 @login_required
 def put_one_product(request):
