@@ -119,7 +119,7 @@
 </header>
 
 <!-- side nav-->
-<div class="d-lg-none vertical-nav bg-white" id="sidebar">
+<div class="d-lg-none vertical-nav bg-white active" id="sidebar">
   <div class="py-4 px-3 mb-4" style="background-color: #DCDCDC;">
     <div class="media d-flex align-items-center">
       <div class="media-body">
@@ -149,9 +149,9 @@
       {% if user.is_authenticated %} {# 유저가 로그인 중이면 #}
   
       <li class="nav-item">
-        <a href="#" class="nav-link text-dark">
+        <a href = "{% url 'customerPurchase:purchaselist' %}" class="nav-link text-dark">
           <i class="fa fa-picture-o mr-3 text-primary fa-fw"></i>
-          회원 정보
+          주문 내역
         </a>
       </li>
       <li class="nav-item">
