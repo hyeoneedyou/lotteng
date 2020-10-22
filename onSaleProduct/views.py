@@ -36,7 +36,17 @@ def show_on_sale_product_list(request):
 
     on_sale_products = OnSaleProduct.objects.all()
     on_sale_products = on_sale_products.filter(endDate__gt=time_threshold, stock__gt = 0) # 상품이 시장 철수를 하였거나, 할인이 마감된 할인 상품은 배제한다.
+    
+    company = request.GET.getlist('company')
+
+    if company:
+        query = Q()
+        for i in company:
+            query = query | Q(shop__company__name = i)
+        on_sale_products = on_sale_products.filter(query)
+        print(query)
     on_sale_products = on_sale_products[::-1] # 최근에 등록된 상품이 앞으로 오게 한다.
+
 
     # pagination
     paginator = Paginator(on_sale_products, page_cnt)
@@ -59,12 +69,20 @@ def show_on_sale_product_list(request):
 시장 철수, 할인 마감등이 되지 않은 할인 중인 상품 목록을 
 다른 페이지에서 사용하기 위한 함수
 '''
-def get_on_sale_product_list(page, page_cnt = DEFAULT_PAGE_CNT):
+def get_on_sale_product_list(page, company, page_cnt = DEFAULT_PAGE_CNT):
     # query
     time_threshold = datetime.now()
 
     on_sale_products = OnSaleProduct.objects.all()
     on_sale_products = on_sale_products.filter(endDate__gt=time_threshold, stock__gt = 0) # 상품이 시장 철수를 하였거나, 할인이 마감된 할인 상품은 배제한다.
+
+    if company:
+        query = Q()
+        for i in company:
+            query = query | Q(shop__company__name = i)
+        on_sale_products = on_sale_products.filter(query)
+    on_sale_products = on_sale_products[::-1] # 최근에 등록된 상품이 앞으로 오게 한다.
+    
     on_sale_products = on_sale_products[::-1] # 최근에 등록된 상품이 앞으로 오게 한다.
 
     # pagination
@@ -76,6 +94,7 @@ def get_on_sale_product_list(page, page_cnt = DEFAULT_PAGE_CNT):
     end = min(int(page)+PAGE_NAV_RIGHT, paginator.num_pages)
 
     return {
+        'company' : company,
         'on_sale_products_current_page': on_sale_products_current_page,
         'page': page, 
         'page_cnt': page_cnt, 

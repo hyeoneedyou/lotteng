@@ -54,6 +54,16 @@ Lotteng
   var list_lng = []
   var list_name = [] 
   var list_company = []
+  var query_company_list = []
+  var query_company_str = ""
+  var request_company = {{company | safe}};
+
+  var page = "{{page}}";
+  var page_cnt = "{{page_cnt}}";
+
+  if(isNaN(page)) page = 1;
+  if(isNaN(page_cnt)) page_cnt = 10;
+  
   {% for s in shopInfoList %}
       list_lat.push({{ s.latitude }});
   {% endfor %}
