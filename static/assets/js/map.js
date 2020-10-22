@@ -15,8 +15,6 @@ var mart = [];
 var seven = [];
 var ria = [];
 var hotel = [];
-console.log(list_company);
-console.log(list_lat);
 for (var i = 0; i < list_lat.length; i++) {
     var data_lat = list_lat[i];
     var data_lng = list_lng[i];
@@ -106,8 +104,13 @@ createSevenMarker();
 createRiaMarker();
 createHotelMarker();
 
-
-changeMarker('lobhs');
+if(request_company.length == 1) {
+    console.log(request_company[0]);
+    initMarker(request_company[0]);
+}
+else {
+    initMarker('all');
+}
 
 
 //마커와 이미지를 생성한다.
@@ -276,50 +279,8 @@ function clickListener(marker) {
     }
 }
 
-
-
-// //롭스 마커를 지도에 띄우기
-// function checkLobhs(){
-//     lobhs.forEach(function(data,index){
-//         var coords = data.latlng;
-//         var marker = new kakao.maps.Marker({
-//             map : map,
-//             position : coords,
-//             image : lobhsmarkerImage
-//         });
-//         marker.setMap(map);
-
-//         var customOverlay = new kakao.maps.InfoWindow({
-//             content : '<span class="info-title">'+lobhs[index].title+'<span>'
-//         }); 
-//         customOverlay.setMap(map);
-//         var infoTitle = document.querySelectorAll('.info-title');
-//         infoTitle.forEach(function(e) {
-//             var w = e.offsetWidth+5;
-//             var ml = w/2;
-//             e.parentElement.style.top = "20px";
-//             e.parentElement.style.left = "50%";
-//             e.parentElement.style.marginLeft = -ml+"px";
-//             e.parentElement.style.width = w+"px";
-//             e.parentElement.previousSibling.style.display = "none";
-//             e.parentElement.parentElement.style.border = "0px";
-//             e.parentElement.parentElement.style.background = "unset";
-//         });
-
-//         map.setCenter(new kakao.maps.LatLng(37.51112, 127.095973));
-
-//         kakao.maps.event.addListener(marker, 'mouseover', function(){
-//             customOverlay.open(map,marker);
-//         })
-//         kakao.maps.event.addListener(marker, 'mouseout', function(){
-//             customOverlay.close();
-//         })
-//     });
-// }
-
-
 //메뉴에 있는 Marker를 선택하는 경우
-function changeMarker(type) {
+function initMarker(type) {
     var lobhs = document.getElementById('lobhs');
     var department = document.getElementById('department');
     var mart = document.getElementById('mart');
@@ -328,7 +289,8 @@ function changeMarker(type) {
     var hotel = document.getElementById('hotel');
     var all = document.getElementById('all');
 
-    if (type == 'lobhs') {
+    if (type == '롭스') {
+        query_company_list = ["롭스"]
         lobhs.className = "menu_selected";
         department.className = "";
         mart.className = "";
@@ -345,7 +307,8 @@ function changeMarker(type) {
         setRiatMarker(null);
         setHotelMarker(null);
     }
-    else if (type == 'department') {
+    else if (type == '롯데백화점') {
+        query_company_list = ["롯데백화점"]
         lobhs.className = "";
         department.className = "menu_selected";
         mart.className = "";
@@ -361,7 +324,8 @@ function changeMarker(type) {
         setRiatMarker(null);
         setHotelMarker(null);
     }
-    else if (type == 'mart') {
+    else if (type == '롯데마트') {
+        query_company_list = ["롯데마트"]
         lobhs.className = "";
         department.className = "";
         mart.className = "menu_selected";
@@ -377,7 +341,8 @@ function changeMarker(type) {
         setRiatMarker(null);
         setHotelMarker(null);
     }
-    else if (type == 'seven') {
+    else if (type == '세븐일레븐') {
+        query_company_list = ["세븐일레븐"]
         lobhs.className = "";
         department.className = "";
         mart.className = "";
@@ -393,7 +358,8 @@ function changeMarker(type) {
         setRiatMarker(null);
         setHotelMarker(null);
     }
-    else if (type == 'ria') {
+    else if (type == '롯데리아') {
+        query_company_list = ["롯데리아"]
         lobhs.className = "";
         department.className = "";
         mart.className = "";
@@ -409,7 +375,8 @@ function changeMarker(type) {
         setRiatMarker(map);
         setHotelMarker(null);
     }
-    else if (type == 'hotel') {
+    else if (type == '롯데호텔') {
+        query_company_list = ["롯데호텔"]
         lobhs.className = "";
         department.className = "";
         mart.className = "";
@@ -426,6 +393,7 @@ function changeMarker(type) {
         setHotelMarker(map);
     }
     else if (type == 'all') {
+        query_company_list = ["롭스", "롯데백화점", "롯데마트", "세븐일레븐", "롯데리아","롯데호텔"]
         lobhs.className = "";
         department.className = "";
         mart.className = "";
@@ -441,4 +409,36 @@ function changeMarker(type) {
         setRiatMarker(map);
         setHotelMarker(map);
     }
+}
+
+
+function filterOnClick(type) {
+    if (type == 'lobhs') {
+        query_company_list = ["롭스"]
+    }
+    else if (type == 'department') {
+        query_company_list = ["롯데백화점"]
+    }
+    else if (type == 'mart') {
+        query_company_list = ["롯데마트"]
+    }
+    else if (type == 'seven') {
+        query_company_list = ["세븐일레븐"]
+    }
+    else if (type == 'ria') {
+        query_company_list = ["롯데리아"]
+    }
+    else if (type == 'hotel') {
+        query_company_list = ["롯데호텔"]
+    }
+    else if (type == 'all') {
+        query_company_list = ["롭스", "롯데백화점", "롯데마트", "세븐일레븐", "롯데리아", "롯데호텔"]
+    }
+
+    query_company_str = ""
+    for(var i = 0; i < query_company_list.length; i++) {
+        query_company_str += "company="+query_company_list[i]+"&";
+    }
+
+    window.location = "/?page="+page+"&page_cnt="+page_cnt+"&"+query_company_str;
 }
