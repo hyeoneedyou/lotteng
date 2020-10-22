@@ -8,6 +8,8 @@ Lotteng
 <link rel="stylesheet" href="{% static 'assets/css/productCardList.css'%}">
 <link rel="stylesheet" href="{% static 'assets/css/productCard.css'%}">
 <link rel="stylesheet" href="{% static 'assets/css/pagination.css'%}">
+<link rel="stylesheet" href="{% static 'assets/css/map.css'%}">
+
 {% endblock%}
 
 {% block content %}
@@ -19,4 +21,28 @@ Lotteng
   {% include 'pagination.html' %}
 </section>
 {% include "footer.html" %}
+{% endblock%}
+
+{% block script %}
+<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8370495594055448f667e0383394d495&libraries=services,clusterer"></script>
+<script>
+  var list_lat = []
+  var list_lng = []
+  var list_name = [] 
+  var list_company = []
+  {% for s in shopInfoList %}
+      list_lat.push({{ s.latitude }});
+  {% endfor %}
+  {% for s in shopInfoList %}
+      list_lng.push({{ s.longitude }});
+  {% endfor %}
+  {% for s in shopInfoList %}
+      list_name.push("{{ s.name }}");
+  {% endfor %}
+  {% for s in shopInfoList %}
+      list_company.push("{{ s.company }}");
+  {% endfor %}
+</script>
+<script type="text/javascript" src ="{% static 'assets/js/map.js' %}"></script>
 {% endblock%}
