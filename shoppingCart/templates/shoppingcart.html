@@ -7,6 +7,7 @@ Lotteng
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'assets/css/productCardList.css'%}">
 <link rel="stylesheet" href="{% static 'assets/css/productCard.css'%}">
+<link rel="stylesheet" href="{% static 'assets/css/shoppingCart.css'%}">
 {% endblock%}
 
 {% block content %}
@@ -14,47 +15,117 @@ Lotteng
 
 {% if user.is_authenticated %}
 <div class="product-list-box">
-    <div class="row">
-        {% for product in shoppings %}
-        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6 col-6 mb-3">
+  <h3 style="padding-left: 5%;">
+    장바구니
+  </h3>
+  <hr>
+  <div class="row">
+    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-xs-12 col-12">
+      {% for shop in shops %}
+      {% if shop.isInCart %}
+      <div class="card" style="margin-bottom: 1rem;">
 
-            <div class="card">
-                <div class="card-header">
-                    <img src="http://placehold.it/1000X800" class="card-img-top" alt="...">
-                    <div class="cart-circle-button">
-                        <a href="{% url 'put_one_product' product.id %}">
-                        </a>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <span class="badge badge-primary">{{product.onSaleProduct.kinds}}</span>
-                    <span class="badge badge-secondary">{{product.onSaleProduct.shop.company.name}}</span>
-                    <h5 class="card-title">
-                        <a href="{% url 'show_on_sale_product_detail' product.id %}" style="color: #636363;">
-                            [{{product.onSaleProduct.shop.name}}] {{product.onSaleProduct.product.name}}
-                        </a>
-                    </h5>
-                    <p class="card-text">
-                        {{product.onSaleProduct.product.price}} -> {{product.onSaleProduct.product.price}}
-                    </p>
-                    <p class="card-text">
-                        <svg width="1rem" height="1rem" viewBox="0 0 16 16" class="bi bi-stopwatch" fill="currentColor"
-                            xmlns="http://www.w3.org/2000/svg" style="color: #DA291C; display: inline;">
-                            <path fill-rule="evenodd"
-                                d="M6 .5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1H9v1.07A7.001 7.001 0 0 1 8 16 7 7 0 0 1 7 2.07V1h-.5A.5.5 0 0 1 6 .5zM8 3a6 6 0 1 0 .001 12A6 6 0 0 0 8 3zm0 2.1a.5.5 0 0 1 .5.5V9a.5.5 0 0 1-.5.5H4.5a.5.5 0 0 1 0-1h3V5.6a.5.5 0 0 1 .5-.5z" />
-                        </svg>
-                        ~{{product.onSaleProduct.endDate}} 까지
-                    </p>
-                    <p class="card-text">
-                        재고: {{product.onSaleProduct.stock}}
-                    </p>
-
-
-                </div>
-            </div>
+        <div class="card-header">
+          <h5>
+            {{shop.company.name}}[{{shop.name}}]
+          </h5>
         </div>
-        {% endfor %}
+        <div class="card-body">
+          {% for cartProduct in shoppings %}
+          {% if cartProduct.onSaleProduct.shop.name == shop.name %}
+          <div class="row">
+            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-4 col-4 mb-3">
+              {% if cartProduct.product.represent_image %}
+              <img src="{{cartProduct.product.represent_image.url}}" class="card-img-top" alt="...">
+              {% else %}
+              <img src="http://placehold.it/1000X800" class="card-img-top" alt="...">
+              {% endif %}
+            </div>
+            <div class="col-xl-9 col-lg-9 col-md-8 col-sm-8 col-xs-8 col-8 mb-3">
+              <p class="badge badge-primary">{{cartProduct.onSaleProduct.kinds}}</p>
+              <p>
+                <a href="{% url 'show_on_sale_product_detail' cartProduct.id %}" style="color: #636363;">
+                  {{cartProduct.onSaleProduct.product.name}}
+                </a>
+              </p>
+              <p>
+                <span class="product-discount-ratio">
+                  <script>
+                    var org = {{ cartProduct.onSaleProduct.product.price }};
+                    var dis = {{ cartProduct.onSaleProduct.price }};
+                    var ratio = (org - dis) / org * 100;
+                    document.write(Math.round(ratio) + "%");
+                  </script>
+                </span>
+                <span class="product-original-price" id="product-original-price">
+                  <script>
+                    function numberWithCommas(x) {
+                      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    }
+                    document.write(numberWithCommas({{ cartProduct.onSaleProduct.product.price }}));
+                  </script>
+                </span>
+                <span class="product-price-arrow">
+                  →
+                </span>
+                <span class="product-discount-price" id="product-discount-price" >
+                  <script>
+                    function numberWithCommas(x) {
+                      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    }
+                    document.write(numberWithCommas({{ cartProduct.onSaleProduct.price }}));
+                  </script>
+                </span>
+              </p>
+              <p style="max-width: 50%;">
+                <input class = "purchase-cnt" id="{{ cartProduct.onSaleProduct.shop.company.name}}-{{ cartProduct.onSaleProduct.shop.name}}-{{ cartProduct.onSaleProduct.product.name}}-cnt" type="number" value="{{cartProduct.count}}" min="0" max="{{cartProduct.onSaleProduct.stock}}" step="1" />
+              </p>
+            </div>
+            <div class="col-12"
+              style="background-color: rgb(231, 145, 139); color:white; padding: 0.3rem 0 0.3rem 2rem;">
+              재고: {{cartProduct.onSaleProduct.stock}}
+            </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+      {% endfor %}
     </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12">
+      <div class="card" style="margin-bottom: 1rem;">
+        <div class="card-header">
+          결제 예정 금액
+        </div>
+        <div class="card-body">
+          <p>
+            <span>
+              상품 금액
+            </span>
+            <strong>
+              <span id = "org-price-text" style="text-align: right;">
+  
+              </span>
+            </strong>
+          </p>
+          <p>
+            <span>
+              상품 할인 금액
+            </span>
+            <strong>
+              <span id = "dis-price-text" style="text-align: right;">
+  
+              </span>
+            </p>
+            </strong>
+            <button class= "btn" id = "direct-buy-button">
+              결재하기
+            </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 {% else %}
 <h3>로그인 후 이용이 가능합니다.</h3>
@@ -62,8 +133,79 @@ Lotteng
 <a href="{% url 'account_signup' %}" class="btn btn-warning">회원가입</a>
 {% endif %}
 
-
-
-
 {% include "footer.html" %}
 {% endblock%}
+
+{% block script %}
+
+<script src="{% static 'assets/js/bootstrap-input-spinner.js'%}"></script>
+<script>
+  $("input[type='number']").inputSpinner()
+</script>
+
+<script>
+  org_price = {};
+  dis_price = {};
+
+  {% for shop in shops %}
+    {% if shop.isInCart %}
+      {% for cartProduct in shoppings %}
+        {% if cartProduct.onSaleProduct.shop.name == shop.name %}
+        dis_price["{{shop.company.name}}"+"-"+"{{shop.name}}"+"-"+"{{cartProduct.onSaleProduct.product.name}}"] = {{cartProduct.onSaleProduct.price}};
+        org_price["{{shop.company.name}}"+"-"+"{{shop.name}}"+"-"+"{{cartProduct.onSaleProduct.product.name}}"] = {{cartProduct.onSaleProduct.product.price}};
+        {% endif %}
+      {% endfor%}
+    {% endif%}
+  {% endfor%}
+  //console.log(org_price);
+  //console.log(dis_price);
+</script>
+<script>
+  var org_total = 0;
+  var dis_total = 0;
+  
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  function get_org_price(id, cnt) {
+    id = ""+id;
+    if(id && id != "undefined") {
+      id = id.replace("-cnt", "");
+      return org_price[id] * cnt;
+    }
+    return 0
+  }
+
+  function get_dis_price(id, cnt) {
+    id = ""+id;
+    if(id && id != "undefined") {
+      id = id.replace("-cnt", "");
+      return dis_price[id] * cnt;
+    }
+    return 0
+  }
+
+  shoppingCartItems = $(".purchase-cnt");
+  for(var i = 0; i <shoppingCartItems.length; i++) {
+    org_total += get_org_price($(shoppingCartItems[i]).attr('id'), $(shoppingCartItems[i]).val());
+    dis_total += get_dis_price($(shoppingCartItems[i]).attr('id'), $(shoppingCartItems[i]).val());
+  }
+  $("#org-price-text").html(numberWithCommas(org_total)+"원");
+  $("#dis-price-text").html(numberWithCommas(dis_total)+"원");
+</script>
+
+<script>
+  $(".purchase-cnt").change(function () {
+    org_total = 0;
+    dis_total = 0;
+    shoppingCartItems = $(".purchase-cnt");
+    for(var i = 0; i <shoppingCartItems.length; i++) {
+      org_total += get_org_price($(shoppingCartItems[i]).attr('id'), $(shoppingCartItems[i]).val());
+      dis_total += get_dis_price($(shoppingCartItems[i]).attr('id'), $(shoppingCartItems[i]).val());
+    }
+    $("#org-price-text").html(numberWithCommas(org_total)+"원");
+    $("#dis-price-text").html(numberWithCommas(dis_total)+"원");
+  });
+</script>
+{% endblock %}
