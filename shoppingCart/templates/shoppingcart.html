@@ -42,6 +42,10 @@ Lotteng
               {% endif %}
             </div>
             <div class="col-xl-9 col-lg-9 col-md-8 col-sm-8 col-xs-8 col-8 mb-3">
+              
+              <button type="button" class="close" aria-label="Close" onclick="popProduct({{cartProduct.id}}, '{{cartProduct.onSaleProduct.product.name}}')">
+                <span>&times;</span>
+              </button>
               <p class="badge badge-primary">{{cartProduct.onSaleProduct.kinds}}</p>
               <p>
                 <a href="{% url 'show_on_sale_product_detail' cartProduct.id %}" style="color: #636363;">
@@ -120,7 +124,7 @@ Lotteng
             </p>
             </strong>
             <button class= "btn" id = "direct-buy-button">
-              결재하기
+              결제하기
             </button>
         </div>
       </div>
@@ -137,7 +141,33 @@ Lotteng
 {% endblock%}
 
 {% block script %}
-
+<script>
+function popProduct(id, name) {
+  var ret =confirm("장바구니에서 "+name+"을 제거하시겠습니까?");
+  if(ret) {
+    var shoppin_cart_product_id = id;
+    $.ajax({
+        type: "POST",
+        url: "{% url 'pop_one_product' %}",
+        data: { 'shoppin_cart_product_id': shoppin_cart_product_id, 'csrfmiddlewaretoken': '{{ csrf_token }}' },
+        dataType: "json",
+        success: function (response) {
+            if (response.isPop) {
+              alert("장바구니에서 제거하였습니다.");
+              location.reload();
+            }
+            else {
+              alert("오류가 발생하였습니다.");
+              location.reload();
+            }
+        },
+        error: function (request, status, error) {
+            alert("로그인이 필요합니다.")
+        },
+    });
+  }
+}
+</script>
 <script src="{% static 'assets/js/bootstrap-input-spinner.js'%}"></script>
 <script>
   $("input[type='number']").inputSpinner()

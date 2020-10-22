@@ -1,10 +1,98 @@
 {% extends "base.html" %}
 {% load static %}
-{% block content %}
-{% if user.is_authenticated %}
-<h1>결제 내역</h1>
-{% for product in purchase_list %}
-    {{product.onSaleProduct.product.name}}
-{% endfor%}
-{% endif %}
+{% block title %}
+Lotteng
 {% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'assets/css/productCardList.css'%}">
+<link rel="stylesheet" href="{% static 'assets/css/productCard.css'%}">
+
+{% endblock%}
+
+{% block content %}
+{% include "nav.html" %}
+<section class = "content" style="margin: 0 15vw 0 15vw;">
+    {% if user.is_authenticated %}
+    <h3>결제 내역</h3>
+    <hr>
+    <div class="row" style=" padding: 5px;">
+        {% for product in purchase_list %}
+        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-4 col-4 mb-3">
+          {% if product.product.represent_image %}
+            <img src="{{product.product.represent_image.url}}" class="card-img-top" alt="...">
+          {% else %}
+          <img src="http://placehold.it/1000X800" class="card-img-top" alt="...">
+          {% endif %}
+        </div>
+        <div class="col-xl-9 col-lg-9 col-md-8 col-sm-8 col-xs-8 col-8 mb-3">
+          <span class="badge badge-primary">{{product.onSaleProduct.kinds}}</span>
+          <span class="badge badge-secondary">{{product.onSaleProduct.shop.company.name}}</span>
+          <p>
+            <a href="{% url 'show_on_sale_product_detail' product.id %}" style="color: #636363;">
+              [{{product.onSaleProduct.shop.name}}] {{product.onSaleProduct.product.name}}
+            </a>
+          </p>
+          <p>
+            <span class="product-original-price" id="product-original-price">
+              <script>
+                function numberWithCommas(x) {
+                  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
+                document.write(numberWithCommas({{ product.onSaleProduct.product.price }}));
+              </script>
+            </span>
+            <span class="product-price-arrow">
+              →
+            </span>
+            <span class="product-discount-price" id="product-discount-price" >
+              <script>
+                function numberWithCommas(x) {
+                  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
+                document.write(numberWithCommas({{ product.onSaleProduct.price }}));
+              </script>
+            </span>
+          </p>
+          <button 
+            type="button" 
+            class="btn" 
+            data-toggle="modal" 
+            data-target="#modal-{{product.auth_number.auth_number}}" 
+            style="text-align: center;
+            background-color:#DA291C;
+            color: white;">
+            인증번호 확인
+          </button>
+          <div class="modal fade" id="modal-{{product.auth_number.auth_number}}" tabindex="-1" role="dialog" aria-labelledby="modallLabel-{{product.auth_number.auth_number}}" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="modallLabel-{{product.auth_number.auth_number}}">[{{product.onSaleProduct.shop.name}}] {{product.onSaleProduct.product.name}}</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <h2 style="text-align: center;">
+                    {{product.auth_number.auth_number}}
+                  </h2>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">확인</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor%}
+
+        </div>
+      </div>
+    {% endif %}
+
+</section>
+{% include "footer.html" %}
+{% endblock%}
+
+{% block script %}
+{% endblock%}
