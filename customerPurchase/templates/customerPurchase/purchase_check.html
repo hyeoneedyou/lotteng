@@ -1,0 +1,7 @@
+<script>
+    {% for m in msg%}
+        alert("{{m | safe}}");
+    {% endfor %}
+
+    window.location = "/";
+</script>
