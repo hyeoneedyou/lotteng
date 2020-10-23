@@ -1,7 +1,8 @@
 .content{
     width: 350px; 
     
-    margin-left: 33%;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 10%;
    
 }
