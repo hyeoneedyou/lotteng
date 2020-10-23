@@ -35,10 +35,10 @@ Lotteng
           {% if cartProduct.onSaleProduct.shop.name == shop.name %}
           <div class="row">
             <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-4 col-4 mb-3">
-              {% if cartProduct.product.represent_image %}
-              <img src="{{cartProduct.product.represent_image.url}}" class="card-img-top" alt="...">
+              {% if cartProduct.onSaleProduct.product.represent_image %}
+                <img src="{{cartProduct.onSaleProduct.product.represent_image.url}}" class="card-img-top" alt="...">
               {% else %}
-              <img src="http://placehold.it/1000X800" class="card-img-top" alt="...">
+                <img src="http://placehold.it/1000X800" class="card-img-top" alt="...">
               {% endif %}
             </div>
             <div class="col-xl-9 col-lg-9 col-md-8 col-sm-8 col-xs-8 col-8 mb-3">
@@ -82,7 +82,7 @@ Lotteng
                 </span>
               </p>
               <p style="max-width: 50%;">
-                <input class = "purchase-cnt" id="{{ cartProduct.onSaleProduct.shop.company.name}}-{{ cartProduct.onSaleProduct.shop.name}}-{{ cartProduct.onSaleProduct.product.name}}-cnt" type="number" value="{{cartProduct.count}}" min="0" max="{{cartProduct.onSaleProduct.stock}}" step="1" />
+                <input class = "purchase-cnt" id="cnt-{{ cartProduct.onSaleProduct.id}}" type="number" value="{{cartProduct.count}}" min="0" max="{{cartProduct.onSaleProduct.stock}}" step="1" />
               </p>
             </div>
             <div class="col-12"
@@ -123,9 +123,13 @@ Lotteng
               </span>
             </p>
             </strong>
-            <button class= "btn" id = "direct-buy-button">
-              결제하기
-            </button>
+            <form action="{% url 'purchase_main' %}" method = "POST">
+              {%csrf_token%}
+              <input type="hidden" name = "data" id = "request-data">
+              <button class= "btn" type = "submit" id = "direct-buy-button">
+                결제하기
+              </button>
+            </form>
         </div>
       </div>
     </div>
@@ -176,19 +180,31 @@ function popProduct(id, name) {
 <script>
   org_price = {};
   dis_price = {};
+  purchase_product_list = {};
+  product = {
+    "company": "",
+    "shop": "",
+    "product": "",
+    "cnt" : 0,
+  }
 
   {% for shop in shops %}
     {% if shop.isInCart %}
       {% for cartProduct in shoppings %}
         {% if cartProduct.onSaleProduct.shop.name == shop.name %}
-        dis_price["{{shop.company.name}}"+"-"+"{{shop.name}}"+"-"+"{{cartProduct.onSaleProduct.product.name}}"] = {{cartProduct.onSaleProduct.price}};
-        org_price["{{shop.company.name}}"+"-"+"{{shop.name}}"+"-"+"{{cartProduct.onSaleProduct.product.name}}"] = {{cartProduct.onSaleProduct.product.price}};
+          var tmp_product =  JSON.parse(JSON.stringify(product));
+          tmp_product.company = "{{shop.company.name}}";
+          tmp_product.shop = "{{shop.name}}";
+          tmp_product.product = "{{cartProduct.onSaleProduct.product.name}}";
+          tmp_product.cnt = $("#cnt-{{ cartProduct.onSaleProduct.id}}").val();
+          purchase_product_list[ {{cartProduct.onSaleProduct.id}}] = tmp_product;
+          dis_price["{{cartProduct.onSaleProduct.id}}"] = {{cartProduct.onSaleProduct.price}};
+          org_price["{{cartProduct.onSaleProduct.id}}"] = {{cartProduct.onSaleProduct.product.price}};
         {% endif %}
       {% endfor%}
     {% endif%}
   {% endfor%}
-  //console.log(org_price);
-  //console.log(dis_price);
+  $("#request-data").val(JSON.stringify(purchase_product_list));
 </script>
 <script>
   var org_total = 0;
@@ -198,10 +214,19 @@ function popProduct(id, name) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
+  function get_id(id) {
+    idd = ""+id;
+    if(idd && idd != "undefined") {
+      idd = idd.replace("cnt-", "");
+      return idd;
+    }
+    return 0;
+  }
+
   function get_org_price(id, cnt) {
     id = ""+id;
     if(id && id != "undefined") {
-      id = id.replace("-cnt", "");
+      id = id.replace("cnt-", "");
       return org_price[id] * cnt;
     }
     return 0
@@ -210,7 +235,7 @@ function popProduct(id, name) {
   function get_dis_price(id, cnt) {
     id = ""+id;
     if(id && id != "undefined") {
-      id = id.replace("-cnt", "");
+      id = id.replace("cnt-", "");
       return dis_price[id] * cnt;
     }
     return 0
@@ -231,11 +256,18 @@ function popProduct(id, name) {
     dis_total = 0;
     shoppingCartItems = $(".purchase-cnt");
     for(var i = 0; i <shoppingCartItems.length; i++) {
+      var item = purchase_product_list[get_id($(shoppingCartItems[i]).attr('id'))];
+      if(item && item != "undefined") {
+        item.cnt = $(shoppingCartItems[i]).val();
+      }
       org_total += get_org_price($(shoppingCartItems[i]).attr('id'), $(shoppingCartItems[i]).val());
       dis_total += get_dis_price($(shoppingCartItems[i]).attr('id'), $(shoppingCartItems[i]).val());
     }
     $("#org-price-text").html(numberWithCommas(org_total)+"원");
     $("#dis-price-text").html(numberWithCommas(dis_total)+"원");
+    $("#request-data").val(JSON.stringify(purchase_product_list));
   });
+
+
 </script>
 {% endblock %}

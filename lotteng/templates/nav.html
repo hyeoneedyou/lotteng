@@ -51,7 +51,7 @@
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                           <a class="dropdown-item" href="{% url 'account_change_password' %}">회원 정보 수정</a>
-                          <a class="dropdown-item" href = "{% url 'customerPurchase:purchaselist' %}" >주문 내역</a>
+                          <a class="dropdown-item" href = "{% url 'purchaselist' %}" >주문 내역</a>
                           <a class="dropdown-item" href="{% url 'account_logout' %}">로그아웃</a>
                         </div>
                       </div>
@@ -149,7 +149,7 @@
       {% if user.is_authenticated %} {# 유저가 로그인 중이면 #}
   
       <li class="nav-item">
-        <a href = "{% url 'customerPurchase:purchaselist' %}" class="nav-link text-dark">
+        <a href = "{% url 'purchaselist' %}" class="nav-link text-dark">
           <i class="fa fa-picture-o mr-3 text-primary fa-fw"></i>
           주문 내역
         </a>

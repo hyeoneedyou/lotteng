@@ -82,9 +82,13 @@ Lotteng
                 {% include 'purchase_modal.html' %}
               </div>
               <div class="col-6">
-                <button class= "btn" id = "direct-buy-button">
-                  바로 구매하기
-                </button>
+                <form action="{% url 'purchase_main' %}" method = "POST">
+                  {%csrf_token%}
+                  <input type="hidden" name = "data" id = "request-data">
+                  <button class= "btn" id = "direct-buy-button">
+                    바로 구매하기
+                  </button>
+                </form>
 
               </div>
             </div>
@@ -107,6 +111,18 @@ Lotteng
 {% block script %}
 <script src="{% static 'assets/js/bootstrap-input-spinner.js'%}"></script>
 <script>
+  purchase_product_list = {
+    {{product.id}} : {
+      "company": "{{product.shop.company.name}}",
+      "shop": "{{product.shop.name}}",
+      "product": "{{product.product.name}}",
+      "cnt" : 1,
+     },
+  };
+
+  $("#request-data").val(JSON.stringify(purchase_product_list));
+
+
   var price = {{ product.price }};
   $("input[type='number']").inputSpinner()
   $("#purchase-cnt").change(function () {
@@ -114,6 +130,8 @@ Lotteng
     $("#purchase-modal-cnt").val(cnt)
     $("#purchase-modal-price").html(cnt * price + "원")
     $("#purchase-price").html(cnt * price + "원")
+    purchase_product_list[{{product.id}}]["cnt"] = cnt;
+    $("#request-data").val(JSON.stringify(purchase_product_list));
   });
 
   $("#purchase-modal-cnt").change(function () {
@@ -121,6 +139,8 @@ Lotteng
     $("#purchase-cnt").val(cnt)
     $("#purchase-price").html(cnt * price + "원")
     $("#purchase-modal-price").html(cnt * price + "원")
+    purchase_product_list[{{product.id}}]["cnt"] = cnt;
+    $("#request-data").val(JSON.stringify(purchase_product_list));
   });
 
   $("#modal-shopping-cart-button").click(function () {

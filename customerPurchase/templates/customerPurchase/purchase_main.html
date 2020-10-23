@@ -1,27 +1,100 @@
 {% extends "base.html" %}
 {% load static %}
+{% block title %}
+Lotteng
+{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'assets/css/productCardList.css'%}">
+<link rel="stylesheet" href="{% static 'assets/css/productCard.css'%}">
+<link rel="stylesheet" href="{% static 'assets/css/purchase_main.css'%}">
+
+{% endblock%}
+
 {% block content %}
-{% if user.is_authenticated %}
-<h1>결제 수단</h1>
-<button onclick="window.open('{% url 'customerPurchase:Lpay' %}', 'window_name','width=430,height=500,location=no,status=no,scrollbars=yes');">L.pay 간편결제</button>
-<button onclick="window.open('{% url 'customerPurchase:card' %}', 'window_name','width=430,height=500,location=no,status=no,scrollbars=yes');">신용카드</button>
-<button onclick="window.open('{% url 'customerPurchase:phone' %}', 'window_name','width=430,height=500,location=no,status=no,scrollbars=yes');">휴대폰 결제</button>
-<div class="purchase_information">
-    <table >
-        <tr>픽업 장소<br></br>
-        {{ Shop.name }}
-        </tr>
-        <tr>상품 정보<br></br>
-        {{ Product.name }}
-        </tr>
-        <tr>결제 금액<br></br>
-        {{ OnSaleProduct.price }}
-        </tr>
-    </table>
-</div>
-       
-{% else %}
-    <a href="{% url 'account_login' %}" >Login</a>
-    <a href="{% url 'account_signup' %}" >Sign Up</a>
-{% endif %}    
+{% include "nav.html" %}
+<section class="content" style="margin-left: 10vw; margin-right: 10vw;">
+  {% if user.is_authenticated %}
+  <h2>결제</h2>
+  <hr>
+  <div class="row">
+    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-xs-12 col-12">
+      <h4>
+        결제 수단
+      </h4>
+      <div class = "purchase-tools">
+        <button class="btn purchase-tool" onclick="changeTool('Lpay')" id="Lpay">
+          L.pay 간편결제
+        </button>
+        <button class="btn purchase-tool" onclick="changeTool('card')" id="card">
+          신용카드
+        </button>
+        <button class="btn purchase-tool" onclick="changeTool('phone')" id="phone">
+          휴대폰 결제
+        </button>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12">
+      <div class="card">
+        <div class="card-header">
+          결제 정보
+        </div>
+        <div class="card-body">
+          {% for key,info in purchase_infos.items %}
+          <p>
+            <strong>
+              상품 정보:
+            </strong>
+            {{info.product}}
+          </p>
+          <p>
+            <strong>
+              픽업 장소:
+            </strong>
+            [{{info.shop}}]{{info.company}}
+          </p>
+          <p>
+            <strong>
+              개수:
+            </strong>
+            {{info.cnt}}
+          </p>
+          <hr>
+          {% endfor %}
+        </div>
+        <form action="{% url 'purchase_check' %}" method="POST">
+          {%csrf_token%}
+          <div class="card-footer">
+            위의 내용을 확인했으며, 동의합니다.
+              <input type="checkbox" name="agree-purchase" id="agree-purchase" required>
+              <input type="hidden" name="data" value="{{data}}">
+              <input type="hidden" name="using-tool" value = "Lpay" id = "using-tool-input">
+              <button class="btn" type="submit" id="buy-button">결제하기</button>
+          </div>
+        </form>
+        </div>
+    </div>
+  </div>
+  {% else %}
+  <a href="{% url 'account_login' %}">Login</a>
+  <a href="{% url 'account_signup' %}">Sign Up</a>
+  {% endif %}
+</section>
+{% include "footer.html" %}
+{% endblock%}
+
+{% block script %}
+<script>
+  var using_tool = 'Lpay';
+  $("#"+using_tool).addClass('using-tool');
+  
+  function changeTool(str) {
+    $("#Lpay").removeClass('using-tool');
+    $("#card").removeClass('using-tool');
+    $("#phone").removeClass('using-tool');
+    $("#"+str).addClass('using-tool');
+    $("#using-tool-input").val(str);
+    using_tool = str;
+  }
+</script>
 {% endblock %}
