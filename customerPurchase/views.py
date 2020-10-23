@@ -63,8 +63,12 @@ def purchase_check(request):
                 msg.append("[{}]{} {} 제품이 구매되었습니다. 주문내역에서 인증번호를 확인하실 수 있습니다.".format(info['shop'], info['company'], info['product']))
         sale_product.save()
 
-        cart_item = get_object_or_404(ShoppingCart, onSaleProduct = sale_product, customer__user = user)
-        cart_item.delete()
+        try:
+            cart_items = ShoppingCart.objects.filter(onSaleProduct = sale_product, customer__user = user)
+            for cart_item in cart_items:
+                cart_item.delete()
+        except:
+            pass
 
     return render(request, 'customerPurchase/purchase_check.html', {'msg':msg})
 
