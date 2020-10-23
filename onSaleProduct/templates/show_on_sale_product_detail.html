@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load markdown_deux_tags %}
 {% block title %}
 Lotteng
 {% endblock %}
@@ -92,7 +93,7 @@ Lotteng
         </div>
         <div class="col-xl-12 col-12">
           <div class="product-detail-info-container">
-            {{product.product.info}}
+            {{product.product.info | markdown }}
           </div>
         </div>
       </div>
