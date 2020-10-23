@@ -5,12 +5,25 @@ import random, json
 from .models import CustomerPurchase
 from onSaleProduct.models import OnSaleProduct
 from shoppingCart.models import ShoppingCart
+from shop.models import AuthNumber, Shop
 
 # Create your views here.
-def purchasecode(request):
+def getPurchasecode(shop_name, company_name):
     code = random.randrange(0, 9999)
-    code = (4 - len(str(code))) * "0" + str(code)
-    return render(request, 'customerPurchase/purchasecode.html', {'code':code})
+
+    auth_number_list = AuthNumber.objects.filter(shop__name = shop_name, shop__company__name = company_name)
+    
+    for i in range(10000):
+        for num in auth_number_list:
+            if(num.auth_number == code):
+                code = random.randrange(0, 9999)
+                break
+        else:
+            break
+    else:
+        print("인증번호 발급 실패")
+        return "Fail"
+    return code
 
 def purchase_main(request):
     purchase_info = json.loads(request.POST.get('data'))
@@ -27,6 +40,7 @@ def purchase_check(request):
     purchase_info = json.loads(request.POST.get('data'))
     using_tool = request.POST.get('using-tool')
     user = request.user
+    customer = get_object_or_404(Customer, user = request.user)
 
     msg = []
     for id, info in purchase_info.items():
@@ -36,8 +50,17 @@ def purchase_check(request):
         if stock < purchase_cnt:
             msg.append("[{}]{} {} 제품의 재고가 없습니다. 환불되었습니다.".format(info['shop'], info['company'], info['product']))
         else:
-            sale_product.stock -= purchase_cnt
-            msg.append("[{}]{} {} 제품이 구매되었습니다. 주문내역에서 인증번호를 확인하실 수 있습니다.".format(info['shop'], info['company'], info['product']))
+            code = getPurchasecode(info['shop'], info['company'])
+            if(code == "Fail"):
+                msg.append("[{}]{} {} 제품 인증번호 발급에 실패하였습니다. 고객센터에 문의해주세요.".format(info['shop'], info['company'], info['product']))
+            else:
+                crt_shop = get_object_or_404(Shop, name = info['shop'], company__name = info['company'])
+                crt_auth_number = AuthNumber(auth_number = code, shop = crt_shop)
+                crt_auth_number.save()
+                crt_customer_purchase = CustomerPurchase(onSaleProduct = sale_product, customer = customer, count = purchase_cnt, auth_number = crt_auth_number)
+                crt_customer_purchase.save()
+                sale_product.stock -= purchase_cnt
+                msg.append("[{}]{} {} 제품이 구매되었습니다. 주문내역에서 인증번호를 확인하실 수 있습니다.".format(info['shop'], info['company'], info['product']))
         sale_product.save()
 
         cart_item = get_object_or_404(ShoppingCart, onSaleProduct = sale_product, customer__user = user)
