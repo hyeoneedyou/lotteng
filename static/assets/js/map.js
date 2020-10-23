@@ -307,7 +307,7 @@ function initMarker(types) {
     setRiatMarker(null);
     query_company_list = types;
 
-    if(types.length == COMPANY_CNT) {
+    if(types.length == COMPANY_CNT || types.length == 0) {
         lobhs.className = "";
         department.className = "";
         mart.className = "";
