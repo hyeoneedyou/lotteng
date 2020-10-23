@@ -54,6 +54,12 @@
     color: black;
 }
 
+#purchase-modal-price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: black;
+}
+
 
 .input-group-prepend, .input-group-append  {
     background-color: #DA291C;
@@ -83,7 +89,12 @@
     text-align: center;
     width: 90%;
     border: 2px solid #DA291C;
+}
 
+#modal-shopping-cart-button {
+    text-align: center;
+    background-color: #DA291C;
+    color: white;
 }
 
 #direct-buy-button {

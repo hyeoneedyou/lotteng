@@ -9,23 +9,21 @@
       </div>
       <div class="modal-body">
         <div class="row">
-            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4 col-4">
-                {% if product.product.represent_image %}
-                  <img src="{{product.product.represent_image.url}}" class="card-img-top" alt="...">
-                {% else %}
-                  <img src="http://placehold.it/1000X800" class="card-img-top" alt="...">
-                {% endif %}
-            </div>
-            <div>
-                <p>
-                    <span style="font-weight: bold; color: black;">
-                        {{product.product.name}}
-                    </span>
-                    <span>
-                        {{product.product.sub_name}}
-                    </span>
-                </p>
-            </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4 col-4">
+              {% if product.product.represent_image %}
+                <img src="{{product.product.represent_image.url}}" class="card-img-top" alt="...">
+              {% else %}
+                <img src="http://placehold.it/1000X800" class="card-img-top" alt="...">
+              {% endif %}
+          </div>
+          <div>
+            <p style="font-weight: bold; color: black;">
+                {{product.product.name}}
+            </p>
+            <p>
+                {{product.product.sub_name}}
+            </p>
+          </div>
         </div>
         <div class="row purchace-cnt-input" style="margin-top: 2rem;">
             <div class="col-6">
