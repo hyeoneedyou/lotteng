@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
-import os, json
+import os, json, re
 from django.core.exceptions import ImproperlyConfigured
 import mimetypes
 
@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount', 
     'allauth.socialaccount.providers.google',
+    'markdown_deux',
 ]
 
 MIDDLEWARE = [
@@ -145,13 +146,14 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
-#STATICFILES_DIRS = [
-#    os.path.join(BASE_DIR, 'static'),
-#    os.path.join(BASE_DIR, 'main', 'static'),
-#    os.path.join(BASE_DIR, 'lotteng', 'static')
-#]
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+if DEBUG:
+    STATICFILES_DIRS = [
+       os.path.join(BASE_DIR, 'static'),
+       os.path.join(BASE_DIR, 'main', 'static'),
+       os.path.join(BASE_DIR, 'lotteng', 'static')
+    ]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Media files
 
@@ -164,3 +166,74 @@ AUTHENTICATION_BACKENDS = [
 ]
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
+
+MDEDITOR_CONFIGS = {
+    'default':{
+        'width': '90% ',  # Custom edit box width
+        'heigth': 500,  # Custom edit box height
+        'toolbar': ["undo", "redo", "|",
+                    "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
+                    "h1", "h2", "h3", "h5", "h6", "|",
+                    "list-ul", "list-ol", "hr", "|",
+                    "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime",
+                    "emoji", "html-entities", "pagebreak", "goto-line", "|",
+                    "help", "info",
+                    "||", "preview", "watch", "fullscreen"],  # custom edit box toolbar 
+        'upload_image_formats': ["jpg", "jpeg", "gif", "png", "bmp", "webp"],  # image upload format type
+        'image_folder': 'editor',  # image save the folder name
+        'theme': 'default',  # edit box theme, dark / default
+        'preview_theme': 'default',  # Preview area theme, dark / default
+        'editor_theme': 'default',  # edit area theme, pastel-on-dark / default
+        'toolbar_autofixed': True,  # Whether the toolbar capitals
+        'search_replace': True,  # Whether to open the search for replacement
+        'emoji': True,  # whether to open the expression function
+        'tex': True,  # whether to open the tex chart function
+        'flow_chart': True,  # whether to open the flow chart function
+        'sequence': True, # Whether to open the sequence diagram function
+        'watch': True,  # Live preview
+        'lineWrapping': False,  # lineWrapping
+        'lineNumbers': False,  # lineNumbers
+        'language': 'en'  # zh / en / es 
+    }
+    
+}
+
+
+from markdown_deux.conf.settings import MARKDOWN_DEUX_DEFAULT_STYLE
+
+MARKDOWN_DEUX_STYLES = {
+    "default": MARKDOWN_DEUX_DEFAULT_STYLE,
+    "trusted": {
+        "extras": {
+            "code-friendly": None,
+        },
+        # Allow raw HTML (WARNING: don't use this for user-generated
+        # Markdown for your site!).
+        "safe_mode": False,
+    },
+    "recipe": {
+        "extras": {
+            "code-friendly": None,
+        },
+        "safe_mode": "escape",
+        "link_patterns": [
+            # Transform "Recipe 123" in a link.
+            (re.compile(r"recipe\s+#?(\d+)\b", re.I),
+             r"http://code.activestate.com/recipes/\1/"),
+        ],
+        "extras": {
+            "code-friendly": None,
+            "pyshell": None,
+            "demote-headers": 3,
+            "link-patterns": None,
+            # `class` attribute put on `pre` tags to enable using
+            # <http://code.google.com/p/google-code-prettify/> for syntax
+            # highlighting.
+            "html-classes": {"pre": "prettyprint"},
+            "cuddled-lists": None,
+            "footnotes": None,
+            "header-ids": None,
+        },
+        "safe_mode": "escape",
+    }
+}
