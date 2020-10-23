@@ -49,3 +49,49 @@
     font-weight: bold;
     color: #DA291C;
 }
+
+.card-img-top {
+    min-height: 10rem;
+    max-height: 15rem;
+}
+
+
+h5{
+    font-size: 1rem;
+}
+p {
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+}
+span {
+    font-size: 0.9rem;
+}
+.badge {
+    font-size: 0.8rem;
+}
+
+@media (max-width: 575.98px) {
+    .card-img-top {
+        height: 8rem;
+    }
+}
+@media (min-width: 576px) and (max-width: 767.98px)  {
+    .card-img-top {
+        height: 10rem;
+    }
+}
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .card-img-top {
+        height: 11rem;
+    }
+}
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .card-img-top {
+        height: 12rem;
+    }
+}
+@media (min-width: 1200px) {
+    .card-img-top {
+        height: 14rem;
+    }
+}

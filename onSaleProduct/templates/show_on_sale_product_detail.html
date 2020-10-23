@@ -60,7 +60,7 @@ Lotteng
                 <path fill-rule="evenodd"
                   d="M6 .5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1H9v1.07A7.001 7.001 0 0 1 8 16 7 7 0 0 1 7 2.07V1h-.5A.5.5 0 0 1 6 .5zM8 3a6 6 0 1 0 .001 12A6 6 0 0 0 8 3zm0 2.1a.5.5 0 0 1 .5.5V9a.5.5 0 0 1-.5.5H4.5a.5.5 0 0 1 0-1h3V5.6a.5.5 0 0 1 .5-.5z" />
               </svg>
-              ~{{product.endDate}} 까지
+              ~{{product.endDate | date:'Y/m/d G:i'}} 까지
             </p>
 
             <div class="row purchace-cnt-input">
@@ -69,7 +69,6 @@ Lotteng
               </div>
               <div class="col-6">
                 <span id="purchase-price">
-                  {{product.price}}원
                 </span>
               </div>
             </div>
@@ -111,6 +110,15 @@ Lotteng
 {% block script %}
 <script src="{% static 'assets/js/bootstrap-input-spinner.js'%}"></script>
 <script>
+  
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  
+  $("#product-original-price").html(numberWithCommas({{product.product.price}}));
+  $("#product-discount-price").html(numberWithCommas({{product.price}}));
+  $("#purchase-price").html(numberWithCommas({{product.price}})+"원");
+
   purchase_product_list = {
     {{product.id}} : {
       "company": "{{product.shop.company.name}}",
@@ -128,8 +136,8 @@ Lotteng
   $("#purchase-cnt").change(function () {
     var cnt = $("#purchase-cnt").val()
     $("#purchase-modal-cnt").val(cnt)
-    $("#purchase-modal-price").html(cnt * price + "원")
-    $("#purchase-price").html(cnt * price + "원")
+    $("#purchase-modal-price").html(numberWithCommas(cnt * price) + "원")
+    $("#purchase-price").html(numberWithCommas(cnt * price) + "원")
     purchase_product_list[{{product.id}}]["cnt"] = cnt;
     $("#request-data").val(JSON.stringify(purchase_product_list));
   });
@@ -137,8 +145,8 @@ Lotteng
   $("#purchase-modal-cnt").change(function () {
     var cnt = $("#purchase-modal-cnt").val()
     $("#purchase-cnt").val(cnt)
-    $("#purchase-price").html(cnt * price + "원")
-    $("#purchase-modal-price").html(cnt * price + "원")
+    $("#purchase-price").html(numberWithCommas(cnt * price) + "원")
+    $("#purchase-modal-price").html(numberWithCommas(cnt * price) + "원")
     purchase_product_list[{{product.id}}]["cnt"] = cnt;
     $("#request-data").val(JSON.stringify(purchase_product_list));
   });
@@ -164,13 +172,7 @@ Lotteng
         },
     });
 })
-  function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
 
-  $("#product-original-price").html(numberWithCommas({{product.product.price}}));
-  $("#product-discount-price").html(numberWithCommas({{product.price}}));
-  
 </script>
 
 {% endblock%}
