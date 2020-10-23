@@ -8,8 +8,8 @@ Lotteng
 {% endblock %}
 
 {% block stylesheet %}
-<link rel="stylesheet" href="{% static 'assets/css/productCardList.css'%}">
-<link rel="stylesheet" href="{% static 'assets/css/productCard.css'%}">
+<link rel="stylesheet" href="{% static 'assets/css/productCardList.css'%}?ver=1.1">
+<link rel="stylesheet" href="{% static 'assets/css/productCard.css'%}?ver=1.1">
 {% endblock%}
 
 {% block content %}
@@ -23,7 +23,7 @@ Lotteng
   <div class="product-list-box">
     <div class="row">
       {% for product in on_sale_products_current_page %}
-       <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-6 col-6 mb-3">
+       <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 col-xs-12 col-12 mb-3">
         {% include 'product_card.html' %}
         </div>
       {% endfor%}

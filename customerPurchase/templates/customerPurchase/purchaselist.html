@@ -5,8 +5,8 @@ Lotteng
 {% endblock %}
 
 {% block stylesheet %}
-<link rel="stylesheet" href="{% static 'assets/css/productCardList.css'%}">
-<link rel="stylesheet" href="{% static 'assets/css/productCard.css'%}">
+<link rel="stylesheet" href="{% static 'assets/css/productCardList.css'%}?ver=1.1">
+<link rel="stylesheet" href="{% static 'assets/css/productCard.css'%}?ver=1.1">
 
 {% endblock%}
 
@@ -19,8 +19,8 @@ Lotteng
   <div class="row" style=" padding: 5px;">
     {% for product in purchase_list %}
     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-xs-4 col-4 mb-3">
-      {% if product.product.represent_image %}
-      <img src="{{product.product.represent_image.url}}" class="card-img-top" alt="...">
+      {% if product.onSaleProduct.product.represent_image %}
+      <img src="{{product.onSaleProduct.product.represent_image.url}}" class="card-img-top" alt="...">
       {% else %}
       <img src="http://placehold.it/1000X800" class="card-img-top" alt="...">
       {% endif %}
@@ -86,6 +86,7 @@ Lotteng
         </div>
       </div>
     </div>
+    <hr class="col-12">
     {% endfor%}
   </div>
   {% endif %}
