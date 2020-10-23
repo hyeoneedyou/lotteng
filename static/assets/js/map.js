@@ -1,3 +1,5 @@
+const COMPANY_CNT = 6
+
 //지도 생성하기
 var container = document.getElementById('map');
 var options = {
@@ -104,13 +106,14 @@ createSevenMarker();
 createRiaMarker();
 createHotelMarker();
 
-if(request_company.length == 1) {
-    console.log(request_company[0]);
-    initMarker(request_company[0]);
-}
-else {
-    initMarker('all');
-}
+initMarker(request_company);
+// if(request_company.length == 1) {
+//     console.log(request_company[0]);
+//     initMarker(request_company[0]);
+// }
+// else {
+//     initMarker('all');
+// }
 
 
 //마커와 이미지를 생성한다.
@@ -280,7 +283,7 @@ function clickListener(marker) {
 }
 
 //메뉴에 있는 Marker를 선택하는 경우
-function initMarker(type) {
+function initMarker(types) {
     var lobhs = document.getElementById('lobhs');
     var department = document.getElementById('department');
     var mart = document.getElementById('mart');
@@ -288,112 +291,23 @@ function initMarker(type) {
     var ria = document.getElementById('ria');
     var hotel = document.getElementById('hotel');
     var all = document.getElementById('all');
+    lobhs.className = "";
+    department.className = "";
+    mart.className = "";
+    seven.className = "";
+    ria.className = "";
+    hotel.className = "";
+    all.className = "";
 
-    if (type == '롭스') {
-        query_company_list = ["롭스"]
-        lobhs.className = "menu_selected";
-        department.className = "";
-        mart.className = "";
-        seven.className = "";
-        ria.className = "";
-        hotel.className = "";
-        all.className = "";
+    setLobhsMarker(null);
+    setDepartmentMarker(null);
+    setMarttMarker(null);
+    setRiatMarker(null);
+    setSeventMarker(null);
+    setRiatMarker(null);
+    query_company_list = types;
 
-        setLobhsMarker(map);
-        setDepartmentMarker(null);
-        setMarttMarker(null);
-        setRiatMarker(null);
-        setSeventMarker(null);
-        setRiatMarker(null);
-        setHotelMarker(null);
-    }
-    else if (type == '롯데백화점') {
-        query_company_list = ["롯데백화점"]
-        lobhs.className = "";
-        department.className = "menu_selected";
-        mart.className = "";
-        seven.className = "";
-        ria.className = "";
-        hotel.className = "";
-        all.className = "";
-
-        setLobhsMarker(null);
-        setDepartmentMarker(map);
-        setMarttMarker(null);
-        setSeventMarker(null);
-        setRiatMarker(null);
-        setHotelMarker(null);
-    }
-    else if (type == '롯데마트') {
-        query_company_list = ["롯데마트"]
-        lobhs.className = "";
-        department.className = "";
-        mart.className = "menu_selected";
-        seven.className = "";
-        ria.className = "";
-        hotel.className = "";
-        all.className = "";
-
-        setLobhsMarker(null);
-        setDepartmentMarker(null);
-        setMarttMarker(map);
-        setSeventMarker(null);
-        setRiatMarker(null);
-        setHotelMarker(null);
-    }
-    else if (type == '세븐일레븐') {
-        query_company_list = ["세븐일레븐"]
-        lobhs.className = "";
-        department.className = "";
-        mart.className = "";
-        seven.className = "menu_selected";
-        ria.className = "";
-        hotel.className = "";
-        all.className = "";
-
-        setLobhsMarker(null);
-        setDepartmentMarker(null);
-        setMarttMarker(null);
-        setSeventMarker(map);
-        setRiatMarker(null);
-        setHotelMarker(null);
-    }
-    else if (type == '롯데리아') {
-        query_company_list = ["롯데리아"]
-        lobhs.className = "";
-        department.className = "";
-        mart.className = "";
-        seven.className = "";
-        ria.className = "menu_selected";
-        hotel.className = "";
-        all.className = "";
-
-        setLobhsMarker(null);
-        setDepartmentMarker(null);
-        setMarttMarker(null);
-        setSeventMarker(null);
-        setRiatMarker(map);
-        setHotelMarker(null);
-    }
-    else if (type == '롯데호텔') {
-        query_company_list = ["롯데호텔"]
-        lobhs.className = "";
-        department.className = "";
-        mart.className = "";
-        seven.className = "";
-        ria.className = "";
-        hotel.className = "menu_selected";
-        all.className = "";
-
-        setLobhsMarker(null);
-        setDepartmentMarker(null);
-        setMarttMarker(null);
-        setSeventMarker(null);
-        setRiatMarker(null);
-        setHotelMarker(map);
-    }
-    else if (type == 'all') {
-        query_company_list = ["롭스", "롯데백화점", "롯데마트", "세븐일레븐", "롯데리아","롯데호텔"]
+    if(types.length == COMPANY_CNT) {
         lobhs.className = "";
         department.className = "";
         mart.className = "";
@@ -405,34 +319,61 @@ function initMarker(type) {
         setLobhsMarker(map);
         setDepartmentMarker(map);
         setMarttMarker(map);
+        setRiatMarker(map);
         setSeventMarker(map);
         setRiatMarker(map);
-        setHotelMarker(map);
+        return;
     }
+
+    types.forEach(type => {
+        console.log(type);
+        if (type == '롭스') {
+            lobhs.className = "menu_selected";
+            setLobhsMarker(map);
+        }
+        else if (type == '롯데백화점') {
+            department.className = "menu_selected";
+            setDepartmentMarker(map);
+        }
+        else if (type == '롯데마트') {
+            mart.className = "menu_selected";
+            setMarttMarker(map);
+        }
+        else if (type == '세븐일레븐') {
+            seven.className = "menu_selected";
+            setSeventMarker(map);
+        }
+        else if (type == '롯데리아') {
+            ria.className = "menu_selected";
+            setRiatMarker(map);
+        }
+        else if (type == '롯데호텔') {
+            hotel.className = "menu_selected";
+            setHotelMarker(map);
+        }
+    });
 }
 
 
 function filterOnClick(type) {
-    if (type == 'lobhs') {
-        query_company_list = ["롭스"]
-    }
-    else if (type == 'department') {
-        query_company_list = ["롯데백화점"]
-    }
-    else if (type == 'mart') {
-        query_company_list = ["롯데마트"]
-    }
-    else if (type == 'seven') {
-        query_company_list = ["세븐일레븐"]
-    }
-    else if (type == 'ria') {
-        query_company_list = ["롯데리아"]
-    }
-    else if (type == 'hotel') {
-        query_company_list = ["롯데호텔"]
-    }
-    else if (type == 'all') {
+    
+    let idx = query_company_list.indexOf(type);
+    if (type == 'all') {
         query_company_list = ["롭스", "롯데백화점", "롯데마트", "세븐일레븐", "롯데리아", "롯데호텔"]
+    } 
+    else if(idx > -1) {
+        if(query_company_list.length == COMPANY_CNT) {
+            query_company_list = [type];
+        }
+        else {
+            query_company_list.splice(idx, 1);
+            if(query_company_list.length == 0) {
+                query_company_list.push(type);
+            }
+        }
+    }
+    else {
+        query_company_list.push(type);
     }
 
     query_company_str = ""
