@@ -1,0 +1,27 @@
+#buy-button {
+    margin-top: 1rem;
+    text-align: center;
+    width: 100%;
+    background-color:#DA291C;
+    color: white;
+}
+
+.purchase-tool {
+    border: 1px solid #707070;
+    border-radius: 1rem;
+    margin: 1rem;
+    padding: 2rem;
+    color:black;
+    background-color: white;
+}
+
+.purchase-tools {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.using-tool {
+    background-color: #DA291C;
+    color:white;
+}
