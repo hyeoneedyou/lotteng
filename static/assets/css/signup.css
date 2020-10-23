@@ -1,0 +1,16 @@
+.content{
+    width: 350px; 
+    
+    margin-left: 31%;
+    margin-top: 5%;
+   
+}
+
+button{
+    color:white;
+    background-color: red;
+    border-radius: 60px;
+    width:200px;
+    height: 50px;
+    border:0;
+}
