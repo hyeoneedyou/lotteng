@@ -56,17 +56,17 @@
 }
 
 
-h5{
+.main-product-card h5{
     font-size: 1rem;
 }
-p {
+.main-product-card p {
     font-size: 0.9rem;
     margin-bottom: 0.4rem;
 }
-span {
+.main-product-card span {
     font-size: 0.9rem;
 }
-.badge {
+.main-product-card .badge {
     font-size: 0.8rem;
 }
 
