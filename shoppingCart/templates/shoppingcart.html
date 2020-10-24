@@ -46,7 +46,9 @@ Lotteng
               <button type="button" class="close" aria-label="Close" onclick="popProduct({{cartProduct.id}}, '{{cartProduct.onSaleProduct.product.name}}')">
                 <span>&times;</span>
               </button>
+              {% if cartProduct.onSaleProduct.kinds %}
               <p class="badge badge-primary">{{cartProduct.onSaleProduct.kinds}}</p>
+              {% endif %}
               <p>
                 <a href="{% url 'show_on_sale_product_detail' cartProduct.id %}" style="color: #636363;">
                   {{cartProduct.onSaleProduct.product.name}}
