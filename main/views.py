@@ -17,8 +17,13 @@ def home(request):
     lng = request.GET.get('lng')
     res = {}
     res.update(get_on_sale_product_list(page, company, sort, lat, lng, page_cnt)) 
+    res['company'] = company
     res['page'] = page
     res['page_cnt'] = page_cnt
+    if lat:
+        res['lat'] = lat
+    if lng:
+        res['lng'] = lng
     if sort:
         res['sort'] = sort
     else:
