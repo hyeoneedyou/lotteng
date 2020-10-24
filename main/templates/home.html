@@ -52,11 +52,16 @@ Lotteng
 <script>
   var cur_lat = 37.513859279255;
   var cur_lng = 127.095973;
+
   var list_lat = []
   var list_lng = []
   var list_name = [] 
   var list_company = []
-  var query_company_list = []
+  var sort = "{{sort}}";
+  var lng = "{{lng}}";
+  var lat = "{{lat}}";
+  var query_company_list = {{company | safe}};
+  console.log(query_company_list)
   var query_company_str =  window.location.search.substr(window.location.search.indexOf("?") + 1);
   var request_company = {{company | safe}};
 

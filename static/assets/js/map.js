@@ -3,7 +3,7 @@ const COMPANY_CNT = 6
 //지도 생성하기
 var container = document.getElementById('map');
 var options = {
-    center: new kakao.maps.LatLng(cur_lat, cur_lng), //지도 시작 (위도,경도) 현재 잠실역으로 셋팅
+    center: new kakao.maps.LatLng(37.513859279255, 127.095973), //지도 시작 (위도,경도) 현재 잠실역으로 셋팅
     level: 7 //확대 범위 클수록 축척이 커짐
 };
 var map = new kakao.maps.Map(container, options);
@@ -380,24 +380,91 @@ function filterOnClick(type) {
     for(var i = 0; i < query_company_list.length; i++) {
         query_company_str += "company="+query_company_list[i]+"&";
     }
+    query_str = "/?page="+page+"&page_cnt="+page_cnt+"&"+query_company_str;
 
-    window.location = "/?page="+page+"&page_cnt="+page_cnt+"&"+query_company_str;
+    if(sort && sort!= "undefined") {
+        query_str += "sort=" + sort + "&";
+    }
+    else {
+        query_str += "sort=추천순&"
+    }
+    if(lat && lat!="undefined") {
+        query_str += "lat=" + lat + "&";
+    }
+    else {
+        lat = cur_lat;
+        query_str += "lat=" + lat + "&";
+    }
+    if(lng && lng!="undefined") {
+        query_str += "lng=" + lng + "&";
+    }
+    else {
+        lng = cur_lng;
+        query_str += "lng=" + lng + "&";
+    }
+    window.location = query_str;
 }
 
 function sortFilterOnClick(type) {
-    idx = query_company_str.indexOf("sort=");
-    if(idx > -1) {
-        query_company_str = query_company_str.substr(0, idx);
+    sort = type;
+
+    query_company_str = ""
+    for(var i = 0; i < query_company_list.length; i++) {
+        query_company_str += "company="+query_company_list[i]+"&";
     }
-    window.location = "/?"+query_company_str+"sort="+type+"&lat="+cur_lat+"&lng="+cur_lng+"&";
+    query_str = "/?page="+page+"&page_cnt="+page_cnt+"&"+query_company_str;
+
+    if(sort && sort!= "undefined") {
+        query_str += "sort=" + sort + "&";
+    }
+    else {
+        query_str += "sort=추천순&"
+    }
+    if(lat && lat!="undefined") {
+        query_str += "lat=" + lat + "&";
+    }
+    else {
+        lat = cur_lat;
+        query_str += "lat=" + lat + "&";
+    }
+    if(lng && lng!="undefined") {
+        query_str += "lng=" + lng + "&";
+    }
+    else {
+        lng = cur_lng;
+        query_str += "lng=" + lng + "&";
+    }
+    window.location = query_str;
 }
 
-function pagination(page) {
-    
-    idx = query_company_str.indexOf("&");
-    if(idx > -1) {
-        query_company_str = query_company_str.substr(idx+1, query_company_str.length-1);
+function pagination(p) {
+    page = p;
+    query_company_str = ""
+    for(var i = 0; i < query_company_list.length; i++) {
+        query_company_str += "company="+query_company_list[i]+"&";
     }
-    window.location = "/?page="+page+"&"+query_company_str+"&lat="+cur_lat+"&lng="+cur_lng+"&";
+    query_str = "/?page="+page+"&page_cnt="+page_cnt+"&"+query_company_str;
+
+    if(sort && sort!= "undefined") {
+        query_str += "sort=" + sort + "&";
+    }
+    else {
+        query_str += "sort=추천순&"
+    }
+    if(lat && lat!="undefined") {
+        query_str += "lat=" + lat + "&";
+    }
+    else {
+        lat = cur_lat;
+        query_str += "lat=" + lat + "&";
+    }
+    if(lng && lng!="undefined") {
+        query_str += "lng=" + lng + "&";
+    }
+    else {
+        lng = cur_lng;
+        query_str += "lng=" + lng + "&";
+    }
+    window.location = query_str;
 
 }
