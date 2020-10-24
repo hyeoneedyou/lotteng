@@ -65,25 +65,41 @@ def show_on_sale_product_list(request):
             
         })
 
+
+def get_shop_dis(shop_lat, shop_lng, lat =  37.513859279255, lng = 127.095973):
+    return (float(shop_lat) - float(lat))**2 + (float(shop_lng) - float(lng))**2
+
 '''
 시장 철수, 할인 마감등이 되지 않은 할인 중인 상품 목록을 
 다른 페이지에서 사용하기 위한 함수
 '''
-def get_on_sale_product_list(page, company, page_cnt = DEFAULT_PAGE_CNT):
+def get_on_sale_product_list(page, company, sort, lat, lng, page_cnt = DEFAULT_PAGE_CNT):
     # query
     time_threshold = datetime.now()
 
     on_sale_products = OnSaleProduct.objects.all()
+    
     on_sale_products = on_sale_products.filter(endDate__gt=time_threshold, stock__gt = 0) # 상품이 시장 철수를 하였거나, 할인이 마감된 할인 상품은 배제한다.
-
+    
+    if sort:
+        if sort == "추천순":
+            on_sale_products = on_sale_products.order_by('-updatedAt')
+        elif sort == "저가순":
+            on_sale_products = on_sale_products.order_by('price')
+        elif sort == "고가순":
+            on_sale_products = on_sale_products.order_by('-price')
+    else:
+        on_sale_products = on_sale_products.order_by('-updatedAt')
+    
     if company:
         query = Q()
         for i in company:
             query = query | Q(shop__company__name = i)
         on_sale_products = on_sale_products.filter(query)
-    on_sale_products = on_sale_products[::-1] # 최근에 등록된 상품이 앞으로 오게 한다.
-    
-    on_sale_products = on_sale_products[::-1] # 최근에 등록된 상품이 앞으로 오게 한다.
+
+    if sort and sort == "거리순":
+        on_sale_products = on_sale_products.all()
+        on_sale_products = sorted(on_sale_products, key = lambda t : get_shop_dis(t.shop.latitude, t.shop.longitude, lat, lng))
 
     # pagination
     paginator = Paginator(on_sale_products, page_cnt)
