@@ -12,11 +12,17 @@ def home(request):
     page = requestStrToInt(request.GET.get('page')) # page 넘버
     page_cnt = requestStrToInt(request.GET.get('page_cnt', DEFAULT_PAGE_CNT)) # 한 페이지에 있는 상품의 수, defalt = 10
     company = request.GET.getlist('company')
-
+    sort = request.GET.get('sort')
+    lat = request.GET.get('lat')
+    lng = request.GET.get('lng')
     res = {}
-    res.update(get_on_sale_product_list(page, company, page_cnt)) 
+    res.update(get_on_sale_product_list(page, company, sort, lat, lng, page_cnt)) 
     res['page'] = page
     res['page_cnt'] = page_cnt
+    if sort:
+        res['sort'] = sort
+    else:
+        res['sort'] = "추천순"
     shopinfolist = Shop.objects.all() #지도에 표시될 각 매장의 정보 list
     context = {'shopInfoList' : shopinfolist}
     res.update(context) #res에 추가
