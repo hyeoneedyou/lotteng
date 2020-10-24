@@ -15,7 +15,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/hyeoneedyou/lotteng)](https://github.com/hyeoneedyou/lotteng/issues)
 [![GitHub stars](https://img.shields.io/github/stars/hyeoneedyou/lotteng)](https://github.com/hyeoneedyou/lotteng/stargazers)
 ## 서비스 소개
-LOTTENG(롯땡)은 온라인의 여러 롯데 계열사(롯데마트, 롯데백화점, 세븐일레븐, 롭스, 롯데호텔, 롯데리아 등)의 마감 세일 제품 정보를 통합해 오프라인 매장과 연계하는 서비스입니다.
+LOTTENG(롯땡)은 온라인의 여러 롯데 계열사(롯데마트, 롯데백화점, 세븐일레븐, 롭스, 롯데호텔, 롯데리아 등)의 마감 세일 제품 정보를 통합해 오프라인 매장과 연계하는 온·오프라인의 장점만을 합친 롯데 전용 땡처리 서비스입니다.
 
 
 마감 세일 상품을 구매할 수 있는 플랫폼이 생성되고 사용자가 증가하고 있습니다. 대표적으로 라스트오더의 경우, 세븐일레븐과 롯데마트 등이 입점이 되어 있지만 음식에 초점이 맞춰져 있으며 롯데 전용 플랫폼이 아니라는 아쉬움이 있었습니다.
