@@ -3,7 +3,7 @@
     <ul class="pagination justify-content-center">
       {% if on_sale_products_current_page.has_previous %}
       <li class="page-item">
-        <a class="page-white" href="?page={{on_sale_products_current_page.previous_page_number}}" tabindex="-1"
+        <a class="page-white" tabindex="-1" onclick="pagination({{on_sale_products_current_page.previous_page_number}})"
           aria-disabled="false">Pre</a>
       </li>
       {% else %}
@@ -14,18 +14,18 @@
       {% for i in range %}
       {% if i == on_sale_products_current_page.number  %}
       <li class="page-item active" aria-current="page">
-        <a class="page-white" href="?page={{i}}" style="color: black; background-color: #707070;"> 
+        <a class="page-white" onclick="pagination({{i}})" style="color: black; background-color: #707070;"> 
           {{i}} 
           <span class="sr-only">(current)</span>
         </a>
       </li>
       {% else %}
-      <li class="page-item"><a class="page-white" href="?page={{i}}">{{i}}</a></li>
+      <li class="page-item"><a class="page-white" onclick="pagination({{i}})">{{i}}</a></li>
       {% endif %}
       {% endfor %}
       {% if on_sale_products_current_page.has_next %}
       <li class="page-item">
-        <a class="page-white" href="?page={{on_sale_products_current_page.next_page_number}}">Next</a>
+        <a class="page-white" onclick="pagination({{on_sale_products_current_page.next_page_number}})">Next</a>
       </li>
       {% else %}
       <li class="page-item disabled">

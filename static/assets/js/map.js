@@ -391,3 +391,13 @@ function sortFilterOnClick(type) {
     }
     window.location = "/?"+query_company_str+"sort="+type+"&lat="+cur_lat+"&lng="+cur_lng+"&";
 }
+
+function pagination(page) {
+    
+    idx = query_company_str.indexOf("&");
+    if(idx > -1) {
+        query_company_str = query_company_str.substr(idx+1, query_company_str.length-1);
+    }
+    window.location = "/?page="+page+"&"+query_company_str+"&lat="+cur_lat+"&lng="+cur_lng+"&";
+
+}
