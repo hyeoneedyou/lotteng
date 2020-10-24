@@ -26,8 +26,12 @@ Lotteng
       {% endif %}
     </div>
     <div class="col-xl-9 col-lg-9 col-md-8 col-sm-8 col-xs-8 col-8 mb-3">
-      <span class="badge badge-primary">{{product.onSaleProduct.kinds}}</span>
-      <span class="badge badge-secondary">{{product.onSaleProduct.shop.company.name}}</span>
+      {% if product.onSaleProduct.kinds %}
+        <span class="badge badge-primary">{{product.onSaleProduct.kinds}}</span>
+      {% endif %}
+      {% if product.onSaleProduct.shop.company.name %}
+       <span class="badge badge-secondary">{{product.onSaleProduct.shop.company.name}}</span>
+      {% endif %}
       <p>
         <a href="{% url 'show_on_sale_product_detail' product.id %}" style="color: #636363;">
           [{{product.onSaleProduct.shop.name}}] {{product.onSaleProduct.product.name}}
