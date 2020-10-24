@@ -72,7 +72,7 @@ Lotteng
                 </span>
               </div>
             </div>
-            
+            {% if user.is_authenticated %}
             <div class="row purchase-button-container">
               <div class="col-6 ">
                 <button type="button"  class= "btn" id = "shopping-cart-button" data-toggle="modal" data-target="#purchaseModal">
@@ -91,6 +91,7 @@ Lotteng
 
               </div>
             </div>
+            {% endif %}
           </div>
 
         </div>
