@@ -19,8 +19,12 @@
     </div>
     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-8 col-xs-8 col-8">
       <div class="card-body">
-        <span class="badge badge-primary">{{product.kinds}}</span>
-        <span class="badge badge-secondary">{{product.shop.company.name}}</span>
+        {% if product.kinds %}
+          <span class="badge badge-primary">{{product.kinds}}</span>
+        {% endif %}
+        {% if product.shop.company.name %}
+          <span class="badge badge-secondary">{{product.shop.company.name}}</span>
+        {% endif %}
         <h5 class="card-title">
           <a href="{% url 'show_on_sale_product_detail' product.id %}" style="color: #636363;">
             [{{product.shop.name}}] {{product.product.name}}

@@ -35,7 +35,7 @@ def show_on_sale_product_list(request):
     time_threshold = datetime.now()
 
     on_sale_products = OnSaleProduct.objects.all()
-    on_sale_products = on_sale_products.filter(endDate__gt=time_threshold, stock__gt = 0) # 상품이 시장 철수를 하였거나, 할인이 마감된 할인 상품은 배제한다.
+    on_sale_products = on_sale_products.filter(endDate__gt=time_threshold, stock__gt = 0, product__status='p') # 상품이 시장 철수를 하였거나, 할인이 마감된 할인 상품은 배제한다.
     
     company = request.GET.getlist('company')
 
@@ -79,7 +79,7 @@ def get_on_sale_product_list(page, company, sort, lat, lng, page_cnt = DEFAULT_P
 
     on_sale_products = OnSaleProduct.objects.all()
     
-    on_sale_products = on_sale_products.filter(endDate__gt=time_threshold, stock__gt = 0) # 상품이 시장 철수를 하였거나, 할인이 마감된 할인 상품은 배제한다.
+    on_sale_products = on_sale_products.filter(endDate__gt=time_threshold, stock__gt = 0, product__status='p') # 상품이 시장 철수를 하였거나, 할인이 마감된 할인 상품은 배제한다.
     
     if sort:
         if sort == "추천순":
@@ -155,8 +155,9 @@ def on_sale_product_search(request):
     # request content
     page = requestStrToInt(request.GET.get('page')) # page 넘버
     page_cnt = requestStrToInt(request.GET.get('page_cnt', DEFAULT_PAGE_CNT)) # 한 페이지에 있는 상품의 수, defalt = 10
+    time_threshold = datetime.now()
 
-    on_sale_product_list = OnSaleProduct.objects.all()
+    on_sale_product_list = OnSaleProduct.objects.all().filter(endDate__gt=time_threshold, stock__gt = 0, product__status='p')
     q = request.GET.get('q', '')
     
     # pagination
