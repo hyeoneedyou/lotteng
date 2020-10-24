@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Product
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['name', 'info', 'price']
+    list_display = ['name', 'info', 'price', 'status']
     actions = ['make_published', 'make_draft', 'make_withdrawn']
 
     def make_published(self, request, queryset):

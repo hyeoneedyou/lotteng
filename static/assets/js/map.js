@@ -3,7 +3,7 @@ const COMPANY_CNT = 6
 //지도 생성하기
 var container = document.getElementById('map');
 var options = {
-    center: new kakao.maps.LatLng(37.513859279255, 127.095973), //지도 시작 (위도,경도) 현재 잠실역으로 셋팅
+    center: new kakao.maps.LatLng(cur_lat, cur_lng), //지도 시작 (위도,경도) 현재 잠실역으로 셋팅
     level: 7 //확대 범위 클수록 축척이 커짐
 };
 var map = new kakao.maps.Map(container, options);
@@ -141,7 +141,7 @@ function createLobhsMarker() {
 
         kakao.maps.event.addListener(marker, 'mouseover', makeOverListner(map, marker, infowindow));
         kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
-        kakao.maps.event.addListener(marker, 'click', clickListener(marker));
+        kakao.maps.event.addListener(marker, 'click', clickListener(marker, lobhs[i].title, lobhs[i].company));
     }
 }
 
@@ -164,7 +164,7 @@ function createDeparmentMarker() {
         departmentInfowindow.push(infowindow);
         kakao.maps.event.addListener(marker, 'mouseover', makeOverListner(map, marker, infowindow));
         kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
-        kakao.maps.event.addListener(marker, 'click', clickListener(marker));
+        kakao.maps.event.addListener(marker, 'click', clickListener(marker, department[i].title, department[i].company));
     }
 }
 //백화점 마커 맵에 추가
@@ -179,7 +179,7 @@ function createMartMarker() {
     for (var i = 0; i < mart.length; i++) {
         marker = createMarker(mart[i].latlng, martmarkerImage, mart[i].title, mart[i].company);
         martMarkers.push(marker);
-        iwContent = '<div class="info-title" style="padding:1px;text-align:center;width:180px">' + department[i].title + '</div>'
+        iwContent = '<div class="info-title" style="padding:1px;text-align:center;width:180px">' + mart[i].title + '</div>'
         var infowindow = new kakao.maps.InfoWindow({
             position: mart[i].latlng,
             content: iwContent,
@@ -187,7 +187,7 @@ function createMartMarker() {
         martInfowindow.push(infowindow);
         kakao.maps.event.addListener(marker, 'mouseover', makeOverListner(map, marker, infowindow));
         kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
-        kakao.maps.event.addListener(marker, 'click', clickListener(marker));
+        kakao.maps.event.addListener(marker, 'click', clickListener(marker, mart[i].title, mart[i].company));
     }
 }
 function setMarttMarker(map) {
@@ -209,7 +209,7 @@ function createSevenMarker() {
         sevenInfowindow.push(infowindow);
         kakao.maps.event.addListener(marker, 'mouseover', makeOverListner(map, marker, infowindow));
         kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
-        kakao.maps.event.addListener(marker, 'click', clickListener(marker));
+        kakao.maps.event.addListener(marker, 'click', clickListener(marker, seven[i].title, seven[i].company));
     }
 }
 function setSeventMarker(map) {
@@ -231,7 +231,7 @@ function createRiaMarker() {
         riaInfowindow.push(infowindow);
         kakao.maps.event.addListener(marker, 'mouseover', makeOverListner(map, marker, infowindow));
         kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
-        kakao.maps.event.addListener(marker, 'click', clickListener(marker));
+        kakao.maps.event.addListener(marker, 'click', clickListener(marker, ria[i].title, ria[i].company));
     }
 }
 function setRiatMarker(map) {
@@ -253,7 +253,7 @@ function createHotelMarker() {
         hotelInfowindow.push(infowindow);
         kakao.maps.event.addListener(marker, 'mouseover', makeOverListner(map, marker, infowindow));
         kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
-        kakao.maps.event.addListener(marker, 'click', clickListener(marker));
+        kakao.maps.event.addListener(marker, 'click', clickListener(marker, hotel[i].title, hotel[i].company));
     }
 }
 function setHotelMarker(map) {
@@ -275,10 +275,10 @@ function makeOverListner(map, marker, infowindow) {
     }
 }
 //마커 클릭시에 데이터 가져오기
-function clickListener(marker) {
+function clickListener(marker, shop, comapny) {
     return function () {
         map.setCenter(marker.getPosition()) //해당 지점을 기준으로 지도 중심 이동
-        alert(marker.getTitle() + "을 선택하셨습니다.");
+        alert(shop + " " + comapny+ "을 선택하셨습니다.");
     }
 }
 
@@ -382,4 +382,12 @@ function filterOnClick(type) {
     }
 
     window.location = "/?page="+page+"&page_cnt="+page_cnt+"&"+query_company_str;
+}
+
+function sortFilterOnClick(type) {
+    idx = query_company_str.indexOf("sort=");
+    if(idx > -1) {
+        query_company_str = query_company_str.substr(0, idx);
+    }
+    window.location = "/?"+query_company_str+"sort="+type+"&lat="+cur_lat+"&lng="+cur_lng+"&";
 }

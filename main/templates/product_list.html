@@ -1,5 +1,16 @@
 <h2 style="margin-top: 1rem;">
     추천 상품 목록
+    <div class="btn-group" style="float: right;">
+      <button type="button" id = "sort-type" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border: 1px solid black;">
+        {{sort}}
+      </button>
+      <div class="dropdown-menu dropdown-menu-right">
+        <span class="dropdown-item" onclick="sortFilterOnClick('추천순')">추천순</span>
+        <span class="dropdown-item" onclick="sortFilterOnClick('거리순')">거리순</span>
+        <span class="dropdown-item" onclick="sortFilterOnClick('저가순')">저가순</span>
+        <span class="dropdown-item" onclick="sortFilterOnClick('고가순')">고가순</span>
+      </div>
+    </div>
 </h2>
 
 <hr>
