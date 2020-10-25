@@ -118,5 +118,6 @@
     margin: 0;
 }
 .product-detail-info-container img{
+    max-width: 100%;
     margin: 0;
 }
