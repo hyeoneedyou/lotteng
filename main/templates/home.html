@@ -14,7 +14,7 @@ Lotteng
 
 {% block content %}
 {% include "nav.html" %}
-<section class = "content">
+<section class="content">
   <!--map.html 포함-->
   {% include 'map.html' %}
   {% include 'product_list.html' %}
@@ -29,60 +29,163 @@ Lotteng
     var onSaleProduct_id = $(this).attr('id');
     var cnt = 1;
     $.ajax({
-        type: "POST",
-        url: "{% url 'put_one_product' %}",
-        data: { 'onSaleProduct_id': onSaleProduct_id, 'cnt': cnt, 'inDetail': true, 'csrfmiddlewaretoken': '{{ csrf_token }}' },
-        dataType: "json",
-        success: function (response) {
-            if (response.isPutCart) {
-              alert("장바구니에 담겼습니다.");
-            }
-            else {
-              alert("이미 장바구니에 담겨져있는 상품입니다.");
-            }
-        },
-        error: function (request, status, error) {
-            alert("로그인이 필요합니다.")
-        },
+      type: "POST",
+      url: "{% url 'put_one_product' %}",
+      data: { 'onSaleProduct_id': onSaleProduct_id, 'cnt': cnt, 'inDetail': true, 'csrfmiddlewaretoken': '{{ csrf_token }}' },
+      dataType: "json",
+      success: function (response) {
+        if (response.isPutCart) {
+          alert("장바구니에 담겼습니다.");
+        }
+        else {
+          alert("이미 장바구니에 담겨져있는 상품입니다.");
+        }
+      },
+      error: function (request, status, error) {
+        alert("로그인이 필요합니다.")
+      },
     });
-})
+  })
 </script>
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8370495594055448f667e0383394d495&libraries=services,clusterer"></script>
+<script type="text/javascript"
+  src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8370495594055448f667e0383394d495&libraries=services,clusterer"></script>
 <script>
   var cur_lat = 37.513859279255;
   var cur_lng = 127.095973;
 
   var list_lat = []
   var list_lng = []
-  var list_name = [] 
+  var list_name = []
   var list_company = []
   var sort = "{{sort}}";
   var lng = "{{lng}}";
   var lat = "{{lat}}";
-  var query_company_list = {{company | safe}};
+  var query_company_list = {{ company | safe}};
   console.log(query_company_list)
-  var query_company_str =  window.location.search.substr(window.location.search.indexOf("?") + 1);
-  var request_company = {{company | safe}};
+  var query_company_str = window.location.search.substr(window.location.search.indexOf("?") + 1);
+  var request_company = {{ company | safe}};
 
   var page = "{{page}}";
   var page_cnt = "{{page_cnt}}";
 
-  if(isNaN(page)) page = 1;
-  if(isNaN(page_cnt)) page_cnt = 10;
-  
+  if (isNaN(page)) page = 1;
+  if (isNaN(page_cnt)) page_cnt = 10;
+
   {% for s in shopInfoList %}
-      list_lat.push({{ s.latitude }});
+  list_lat.push({{ s.latitude }});
   {% endfor %}
   {% for s in shopInfoList %}
-      list_lng.push({{ s.longitude }});
+  list_lng.push({{ s.longitude }});
   {% endfor %}
   {% for s in shopInfoList %}
-      list_name.push("{{ s.name }}");
+  list_name.push("{{ s.name }}");
   {% endfor %}
   {% for s in shopInfoList %}
-      list_company.push("{{ s.company }}");
+  list_company.push("{{ s.company }}");
   {% endfor %}
 </script>
-<script type="text/javascript" src ="{% static 'assets/js/map.js' %}"></script>
+<script>
+  const COMPANY_CNT = 6
+
+  //지도 생성하기
+  var container = document.getElementById('map');
+  var options = {
+    center: new kakao.maps.LatLng(37.513859279255, 127.095973), //지도 시작 (위도,경도) 현재 잠실역으로 셋팅
+    level: 7 //확대 범위 클수록 축척이 커짐
+  };
+  var map = new kakao.maps.Map(container, options);
+
+  var geocoder = new kakao.maps.services.Geocoder();
+
+  //각 상점별 매장 정보가 담길 배열
+  var lobhs = [];
+  var department = [];
+  var mart = [];
+  var seven = [];
+  var ria = [];
+  var hotel = [];
+  for (var i = 0; i < list_lat.length; i++) {
+    var data_lat = list_lat[i];
+    var data_lng = list_lng[i];
+    var data_name = list_name[i];
+    var data_company = list_company[i];
+    list = {
+      title: data_name,
+      latlng: new kakao.maps.LatLng(data_lat, data_lng),
+      company: data_company
+    }
+    if (list_company[i] == '롭스') {
+      lobhs.push(list);
+    }
+    else if (list_company[i] == '롯데백화점') {
+      department.push(list);
+    }
+    else if (list_company[i] == '롯데마트') {
+      mart.push(list);
+    }
+    else if (list_company[i] == '세븐일레븐') {
+      seven.push(list);
+    }
+    else if (list_company[i] == '롯데리아') {
+      ria.push(list);
+    }
+    else if (list_company[i] == '롯데호텔') {
+      hotel.push(list);
+    }
+  }
+
+  //각 매장별 위치에 해당하는 Marker를 담을 배열
+  var lobhsMarkers = [];
+  var departmentMarkers = [];
+  var martMarkers = [];
+  var sevenMarkers = [];
+  var riaMarkers = [];
+  var hotelMarkers = [];
+
+  //각 매장의 이름을 담아 보여줄 infowindow 배열
+  var lobhsInfowindow = [];
+  var departmentInfowindow = [];
+  var martInfowindow = [];
+  var sevenInfowindow = [];
+  var riaInfowindow = [];
+  var hotelInfowindow = [];
+
+  //롭스 이미지마커
+  var lobhsImageSrc = "{% static 'assets/img/롭스.png' %}",
+    imageSize = new kakao.maps.Size(40, 40),
+    imageOption = { offset: new kakao.maps.Point(27, 69) };
+  var lobhsmarkerImage = new kakao.maps.MarkerImage(lobhsImageSrc, imageSize, imageOption);
+
+  //롯데백화점 이미지마커
+  var departmentImageSrc = "{% static 'assets/img/롯데백화점.png' %}",
+    imageSize = new kakao.maps.Size(40, 40),
+    imageOption = { offset: new kakao.maps.Point(27, 69) };
+  var departmentmarkerImage = new kakao.maps.MarkerImage(departmentImageSrc, imageSize, imageOption);
+
+  //롯데마트 이미지마커
+  var martImageSrc = "{% static 'assets/img/롯데마트.png' %}",
+    imageSize = new kakao.maps.Size(40, 40),
+    imageOption = { offset: new kakao.maps.Point(27, 69) };
+  var martmarkerImage = new kakao.maps.MarkerImage(martImageSrc, imageSize, imageOption);
+
+  //세븐일레븐 이미지마커
+  var sevenImageSrc = "{% static 'assets/img/세븐일레븐.jpg' %}",
+    imageSize = new kakao.maps.Size(40, 40),
+    imageOption = { offset: new kakao.maps.Point(27, 69) };
+  var sevenmarkerImage = new kakao.maps.MarkerImage(sevenImageSrc, imageSize, imageOption);
+
+  //롯데리아 이미지마커
+  var riaImageSrc = "{% static 'assets/img/롯데리아2.png' %}",
+    imageSize = new kakao.maps.Size(40, 40),
+    imageOption = { offset: new kakao.maps.Point(27, 69) };
+  var riamarkerImage = new kakao.maps.MarkerImage(riaImageSrc, imageSize, imageOption);
+
+  //롯데호텔 이미지마커
+  var hotelImageSrc = "{% static 'assets/img/롯데호텔.jpg' %}",
+    imageSize = new kakao.maps.Size(40, 40),
+    imageOption = { offset: new kakao.maps.Point(27, 69) };
+  var hotelmarkerImage = new kakao.maps.MarkerImage(hotelImageSrc, imageSize, imageOption);
+</script>
+<script type="text/javascript" src="{% static 'assets/js/map.js' %}"></script>
 {% endblock%}

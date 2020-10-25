@@ -2,31 +2,33 @@
 
 <div id="mapwrap">
     <!-- 지도가 표시될 div -->
-    <div id="map" style="width:100%;height:500px;"></div>
-    <!-- 지도 위에 표시될 마커 카테고리 -->
-    <div class="category" style="max-width: 350px; min-width: 50px; height: auto">
-        <ul>
-            <li id="all" onclick="filterOnClick('all')">
-                <img class="all" src="{% static 'assets/img/all.jpg' %}" style="width: 40px; height: 40px;">
-            </li>
-            <li id="lobhs" onclick="filterOnClick('롭스')">
-                <img class="lobhs" src="{% static 'assets/img/롭스.png' %}" style="width: 40px; height: 40px;">
-            </li>
-            <li id="department" onclick="filterOnClick('롯데백화점')">
-                <img class="department" src="{% static 'assets/img/롯데백화점.png' %}" style="width: 40px; height: 40px;">
-            </li>
-            <li id="mart" onclick="filterOnClick('롯데마트')">
-                <img class="mart" src="{% static 'assets/img/롯데마트.png' %}" style="width: 40px; height: 40px;">
-            </li>
-            <li id="seven" onclick="filterOnClick('세븐일레븐')">
-                <img class="seven" src="{% static 'assets/img/seven.png' %}" style="width: 40px; height: 40px;">
-            </li>
-            <li id="ria" onclick="filterOnClick('롯데리아')">
-                <img class="ria" src="{% static 'assets/img/롯데리아.png' %}" style="width: 40px; height: 40px;">
-            </li>
-            <li id="hotel" onclick="filterOnClick('롯데호텔')">
-                <img class="hotel" src="{% static 'assets/img/롯데호텔.png' %}" style="width: 40px; height: 40px;">
-            </li>
-        </ul>
+    <div id="map" style="width:90%;height:500px; margin-left: 5%; margin-right: 5%;">
+
+        <div class="category" style="max-width: 350px; min-width: 50px; height: auto">
+            <ul>
+                <li id="all" onclick="filterOnClick('all')">
+                    <img class="all" src="{% static 'assets/img/all.jpg' %}" style="width: 40px; height: 40px;">
+                </li>
+                <li id="lobhs" onclick="filterOnClick('롭스')">
+                    <img class="lobhs" src="{% static 'assets/img/롭스.png' %}" style="width: 40px; height: 40px;">
+                </li>
+                <li id="department" onclick="filterOnClick('롯데백화점')">
+                    <img class="department" src="{% static 'assets/img/롯데백화점.png' %}" style="width: 40px; height: 40px;">
+                </li>
+                <li id="mart" onclick="filterOnClick('롯데마트')">
+                    <img class="mart" src="{% static 'assets/img/롯데마트.png' %}" style="width: 40px; height: 40px;">
+                </li>
+                <li id="seven" onclick="filterOnClick('세븐일레븐')">
+                    <img class="seven" src="{% static 'assets/img/세븐일레븐.jpg' %}" style="width: 40px; height: 40px;">
+                </li>
+                <li id="ria" onclick="filterOnClick('롯데리아')">
+                    <img class="ria" src="{% static 'assets/img/롯데리아2.png' %}" style="width: 40px; height: 40px;">
+                </li>
+                <li id="hotel" onclick="filterOnClick('롯데호텔')">
+                    <img class="hotel" src="{% static 'assets/img/롯데호텔.jpg' %}" style="width: 40px; height: 40px;">
+                </li>
+            </ul>
+        </div>
     </div>
+    <!-- 지도 위에 표시될 마커 카테고리 -->
 </div>
