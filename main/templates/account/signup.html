@@ -26,3 +26,8 @@
     </div>
 </div>
 {% endblock %}
+{% block script %}
+<script>
+    $("#id_email").closest("p").attr("style", "visibility:hidden; height:0; margin:0; padding: 0;");
+</script>
+{% endblock %}
