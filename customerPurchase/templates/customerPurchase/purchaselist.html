@@ -33,7 +33,7 @@ Lotteng
        <span class="badge badge-secondary">{{product.onSaleProduct.shop.company.name}}</span>
       {% endif %}
       <p>
-        <a href="{% url 'show_on_sale_product_detail' product.id %}" style="color: #636363;">
+        <a href="{% url 'show_on_sale_product_detail' product.onSaleProduct.id %}" style="color: #636363;">
           [{{product.onSaleProduct.shop.name}}] {{product.onSaleProduct.product.name}}
         </a>
       </p>
